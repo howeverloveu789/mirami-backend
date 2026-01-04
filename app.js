@@ -5,7 +5,7 @@ const cors = require('cors');
 const { registerQ19Routes } = require('./src/api/q19Routes');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 10000;
 
 app.use(cors());
 app.use(express.json());
