@@ -1,10 +1,8 @@
 // src/core/scoring/q19_scoring.js
 
-// 這裡先放一個非常簡單的 scoring，之後再從 TS 版搬完整邏輯過來
 function scoreQ19(answers) {
   const groups = [];
 
-  // 假：所有分數都設定為中度，先讓報告跑起來
   const keys = [
     'patience_threshold',
     'rhythm_instability',
@@ -25,7 +23,6 @@ function scoreQ19(answers) {
     });
   }
 
-  // 也給一些 composite 分數，讓報告的身份感模組有東西可以用
   return {
     groups,
     essenceGrabScore: 0.8,
@@ -35,4 +32,58 @@ function scoreQ19(answers) {
   };
 }
 
-module.exports = { scoreQ19 };
+/**
+ * Reliability builder (additive)
+ * 不做語意分析、不評價內容，只看「結構可信度」
+ */
+function buildReliability({ answers, scoring }) {
+  const total = Object.keys(answers || {}).length;
+
+  // 基本門檻
+  if (total < 90) {
+    return {
+      level: "low",
+      score: 0.3,
+      flags: ["incomplete_answers"],
+    };
+  }
+
+  // control 題（簡化版）
+  const controlMismatch =
+    answers.q92 !== "disagree" ||
+    !answers.q93 ||
+    answers.q94;
+
+  if (controlMismatch) {
+    return {
+      level: "low",
+      score: 0.4,
+      flags: ["control_question_mismatch"],
+    };
+  }
+
+  // 長答題是否有基本輸入
+  const longTextKeys = ["q22", "q23"];
+  const weakLongText = longTextKeys.some(
+    k => !answers[k] || answers[k].length < 8
+  );
+
+  if (weakLongText) {
+    return {
+      level: "medium",
+      score: 0.6,
+      flags: ["low_signal_longtext"],
+    };
+  }
+
+  return {
+    level: "high",
+    score: 0.85,
+    flags: [],
+  };
+}
+
+module.exports = {
+  scoreQ19,
+  buildReliability,
+};
