@@ -1,3 +1,5 @@
+console.log("🔥🔥 THIS IS ROOT app.js WITH HEALTH 🔥🔥");
+
 // app.js
 const express = require("express");
 const cors = require("cors");
