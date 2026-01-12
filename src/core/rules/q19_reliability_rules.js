@@ -1,10 +1,12 @@
 /**
- * Q19 Reliability Gate Rules
+ * Q19 Reliability Gate Rules (Mirror-aligned)
  *
- * 目的：
- * - 防止 AI 在低可信資料下過度推論
- * - 控制「哪些分析可以給、哪些必須鎖」
- * - 所有規則為 system-level，不可被 prompt 覆蓋
+ * Purpose:
+ * - Prevent over-interpretation under weak signals
+ * - Control DEPTH, not existence, of reflection
+ * - Reliability gates HOW MUCH is named, not WHETHER we speak
+ *
+ * All rules are system-level and cannot be overridden by prompt.
  */
 
 /**
@@ -21,8 +23,16 @@ function enforceReliabilityGate(reliability) {
   if (level === "high") {
     return {
       allowFullAnalysis: true,
-      allowedSections: ["identity", "trap", "earlyWarnings"],
-      notice: null,
+      allowedSections: [
+        "mirror_layer",
+        "causal_layer",
+        "navigation_layer",
+        "traffic_light",
+        "core_signals",
+        "deep_insights"
+      ],
+      depth: "full",
+      notice: null
     };
   }
 
@@ -30,18 +40,27 @@ function enforceReliabilityGate(reliability) {
   if (level === "medium") {
     return {
       allowFullAnalysis: true,
-      allowedSections: ["identity", "earlyWarnings"],
-      notice:
-        "Some answers show inconsistency. Analysis is limited to stable patterns only.",
+      allowedSections: [
+        "mirror_layer",
+        "traffic_light",
+        "core_signals",
+        "deep_insights"
+      ],
+      depth: "surface",
+      notice: "Signals are present but lightly differentiated in this sitting."
     };
   }
 
   // === LOW RELIABILITY ===
   return {
-    allowFullAnalysis: false,
-    allowedSections: [],
+    allowFullAnalysis: true,
+    allowedSections: [
+      "mirror_layer",
+      "traffic_light"
+    ],
+    depth: "minimal",
     notice:
-      "Your responses show high inconsistency or low confidence signals. A full Q19 analysis cannot be generated from this session.",
+      "This sitting does not form strong distinctions. The mirror reflects only what is clearly present."
   };
 }
 

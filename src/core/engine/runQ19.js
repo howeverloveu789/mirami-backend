@@ -1,24 +1,17 @@
-// src/core/engine/runQ19.js
 const crypto = require("crypto");
-
-/**
- * ⚠️ 路徑已確認
- * engine → analysis / memory / trace 都是同層
- */
-const { analyzeQ19Signals } = require("../analysis/q19SignalAnalyzer");
-const { writeQ19Memory } = require("../memory/q19MemoryStore");
 const { writeQ19Trace } = require("../trace/q19TraceStore");
 
-// 🔥 用來確認 Node 真正載入的是哪一份
 console.log("🔥 LOADED runQ19 FROM:", __filename);
 
 /**
- * Q19 Core Engine — Phase B1 (STABLE)
- * ❌ No GPT
- * ❌ No language
+ * Q19 Core Engine — 27 題版
  * ✅ Deterministic
- * ✅ Static signals
- * ✅ Memory + Trace (safe)
+ * ✅ Gate only
+ * ❌ No language
+ * ❌ No interpretation
+ * ❌ No report knowledge
+ *
+ * ⚠️ Memory write 已移除（由 q19MemoryStore 統一負責）
  */
 async function runQ19(input = {}) {
   const {
@@ -27,112 +20,60 @@ async function runQ19(input = {}) {
     started_at = null
   } = input;
 
-  /* =========================
-     ① SCORING (minimal)
-  ========================= */
-  const scoring = {
-    answeredCount: Object.keys(answers).length
-  };
+  // ① 作答數量
+  const answeredCount = Object.keys(answers).length;
 
-  /* =========================
-     ② RELIABILITY (gate)
-  ========================= */
+  // ② RELIABILITY GATE（27 題邏輯）
   const reliability = computeReliability(answers);
-
-  /* =========================
-     ③ DECISION GATE
-  ========================= */
   const allowMemory = reliability.level !== "low";
 
-  /* =========================
-     ④ REPORT ID (global anchor)
-  ========================= */
+  // ③ REPORT ID（⭐ 全系統唯一 anchor）
   const report_id = crypto.randomUUID();
+  console.log("[Q19] run, report_id =", report_id);
 
-  console.log("[Q19] writing memory", report_id);
-
-  /* =========================
-     ⑤ STATIC SIGNAL ANALYSIS
-     (pure / deterministic)
-  ========================= */
-  let signals = {};
-  let deltas = {};
-
-  if (allowMemory) {
-    try {
-      const analysis = analyzeQ19Signals({
-        answers,
-        scoring,
-        reliability
-      });
-
-      signals = analysis.signals || {};
-      deltas = analysis.deltas || {};
-
-      writeQ19Memory({
-        report_id,
-        session_id,
-        reliability_level: reliability.level,
-        signals,
-        deltas,
-        created_at: new Date().toISOString()
-      });
-    } catch (err) {
-      // ⚠️ memory / analysis failure must NEVER break core
-      console.error("[Q19 MEMORY ERROR]", err);
-    }
-  }
-
-  /* =========================
-     ⑥ TRACE WRITE (B2)
-     - replayable
-     - safe
-  ========================= */
+  // ④ TRACE WRITE（只給 replay / debug 用）
   try {
     writeQ19Trace({
       report_id,
       session_id,
       reliability_level: reliability.level,
       allowMemory,
-      answeredCount: scoring.answeredCount
+      answeredCount
     });
   } catch (err) {
     console.error("[Q19 TRACE ERROR]", err);
   }
 
-  /* =========================
-     ⑦ CORE RESPONSE
-  ========================= */
+  // ⑤ CORE RESPONSE（⭐ report_id 必須在最外層）
   return {
+    report_id,          // ⭐ 關鍵：後端 / API / 前端唯一來源
+    reliability,
+    gate: {
+      allowMemory
+    },
     meta: {
       test_id: "Q19",
-      report_id,
       started_at,
       timestamp: new Date().toISOString()
-    },
-    scoring,
-    reliability,
-    report: {
-      state: "core-b1",
-      allowMemory
     }
   };
 }
 
 /* =========================
-   RELIABILITY CHECK (v1)
+   RELIABILITY CHECK（27 題版）
 ========================= */
 function computeReliability(answers = {}) {
+  const totalAnswered = Object.keys(answers).length;
   let score = 1.0;
 
-  // Q92: must be disagree
-  if (answers.q92 && answers.q92 !== "disagree") {
+  if (totalAnswered < 24) {
     score -= 0.4;
+  } else if (totalAnswered < 27) {
+    score -= 0.2;
   }
 
-  // Q94: should be skipped
-  if (answers.q94) {
-    score -= 0.2;
+  if (allSameAnswer(answers)) {
+    score -= 0.3;
   }
 
   if (score < 0) score = 0;
@@ -145,6 +86,12 @@ function computeReliability(answers = {}) {
     score: Number(score.toFixed(2)),
     level
   };
+}
+
+function allSameAnswer(answers = {}) {
+  const vals = Object.values(answers);
+  if (vals.length === 0) return false;
+  return vals.every((v) => v === vals[0]);
 }
 
 module.exports = {

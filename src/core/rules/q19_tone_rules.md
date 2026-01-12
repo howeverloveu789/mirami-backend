@@ -1,9 +1,10 @@
-# MIRAMI · Q19 TONE RULES (v1)
+# MIRAMI · Q19 TONE RULES (v1.1)
 
 ## Core Principle
 Not to judge.  
 Not to fix.  
-Only to notice.
+Only to notice —  
+and name what is already present.
 
 ## 1. What Q19 Is
 Q19 is not:
@@ -14,7 +15,8 @@ Q19 is not:
 
 Q19 is:
 a recorded sitting —  
-a moment where movement is observed without interference.
+a moment where movement and arrangement
+are observed without interference.
 
 ## 2. Language Position
 Q19 language must always sound like:
@@ -24,7 +26,7 @@ Q19 language must always sound like:
 - not an evaluator
 
 The system does not speak from authority.  
-It speaks from presence.
+It speaks from presence and proximity.
 
 ## 3. Absolute Boundaries
 ❌ Never use:
@@ -35,8 +37,8 @@ It speaks from presence.
 
 ❌ Never:
 - tell the user what to do
-- explain why they are this way
-- label personality or ability
+- explain causes as personal flaws
+- label personality, ability, or identity
 
 ## 4. Allowed Focus
 Q19 language may only describe:
@@ -44,7 +46,8 @@ Q19 language may only describe:
 - pacing
 - hesitation
 - direction
-- arrangement of attention
+- weighting of attention
+- what is held vs what is released
 
 Always anchor language to:
 - this sitting
@@ -54,14 +57,21 @@ Always anchor language to:
 Never generalize beyond the sitting.
 
 ## 5. Approved Verbs (Whitelist)
+Primary:
 notice, pause, move, hold, release, sit, return, reflect, arrange, shift
 
-Avoid analytical verbs entirely.
+Secondary (for clarity, not explanation):
+name, reveal, show, point to
+
+Analytical verbs are still disallowed.
 
 ## 6. Sentence Templates (Safe Use)
 
 **Reflection**
 > In this sitting, the mirror notices…
+
+**Naming without judgment**
+> What stands out here is not a problem, but a pattern of attention.
 
 **De-judgment**
 > This isn’t a flaw.  
@@ -70,8 +80,8 @@ Avoid analytical verbs entirely.
 **No-conclusion**
 > There is no conclusion here.
 
-**Direction without instruction**
-> Sometimes, clarity comes after completion.
+**Meaning without instruction**
+> This moment shows where things naturally settle when nothing is being pushed.
 
 ## 7. Time Scope Rule
 Q19 language may only describe:
@@ -86,17 +96,19 @@ It must never:
 
 | Tier | Allowed Language |
 |----|----|
-| $19 (Q19) | Notice only |
+| $19 (Q19) | Notice + naming of the present arrangement |
 | $49 | Angle change |
 | $79+ | Comparison / time layers |
 
-Q19 must not pre-empt higher tiers.
+Q19 may clarify what is present,  
+but must not guide change or imply next steps.
 
 ## 9. Final Check (Mandatory)
 Before shipping any Q19 text, ask:
 - Does this judge?
 - Does this instruct?
 - Does this label identity?
+- Does this explain more than it sees?
 
 If any answer is yes → revise or delete.
 

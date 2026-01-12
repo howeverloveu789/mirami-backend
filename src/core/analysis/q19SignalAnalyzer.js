@@ -1,63 +1,59 @@
 // src/core/analysis/q19SignalAnalyzer.js
 
 /**
- * Analyze static behavior signals from Q19 answers
- * ❌ No language
- * ❌ No advice
- * ✅ Deterministic patterns only
+ * Q19 Signal Consistency Analyzer
+ *
+ * Purpose:
+ * - Detect internal inconsistencies or instability in answers
+ * - Provide FLAGS ONLY (no labels, no interpretation)
+ *
+ * This module MUST NOT:
+ * - Describe personality or style
+ * - Generate language
+ * - Be used directly in user-facing output
  */
-function analyzeQ19Signals({ answers = {}, scoring = {}, reliability = {} }) {
-  let contradictionCount = 0;
-  let extremeSwitch = false;
 
-  const agreeCount = Object.values(answers).filter(v => v === "agree").length;
-  const disagreeCount = Object.values(answers).filter(v => v === "disagree").length;
+function analyzeQ19Signals({ answers = {} }) {
+  let contradiction_count = 0;
+  let extreme_switch = false;
 
-  // 極端切換：大量 agree + disagree 並存
-  if (agreeCount > 20 && disagreeCount > 20) {
-    extremeSwitch = true;
-    contradictionCount += 2;
+  const values = Object.values(answers);
+
+  const agreeCount = values.filter(v => v === "agree").length;
+  const disagreeCount = values.filter(v => v === "disagree").length;
+
+  // 極端分裂：大量 agree 與 disagree 同時存在
+  if (agreeCount > 18 && disagreeCount > 18) {
+    extreme_switch = true;
+    contradiction_count += 2;
   }
 
-  // 控制型題組（示意，可慢慢補）
-  const controlQuestions = ["q1", "q2", "q3", "q4", "q5"];
-  const controlAgree = controlQuestions.filter(
-    q => answers[q] === "agree"
-  ).length;
+  // 高反轉密度（短題距內反向）
+  // 注意：這裡不判斷「好壞」，只記錄不穩定
+  let flipCount = 0;
+  let last = null;
 
-  // 壓力反應題組
-  const pressureQuestions = ["q61", "q62", "q63"];
-  const pressureAgree = pressureQuestions.filter(
-    q => answers[q] === "agree"
-  ).length;
-
-  if (controlAgree >= 4 && pressureAgree >= 2) {
-    contradictionCount += 1;
+  for (const v of values) {
+    if (last && v !== last) flipCount++;
+    last = v;
   }
 
-  /* =========================
-     SIGNALS (static profile)
-  ========================= */
-  const signals = {
-    rhythm_type:
-      extremeSwitch ? "fast-switch" : "stable-linear",
+  if (flipCount > values.length * 0.6) {
+    contradiction_count += 1;
+  }
 
-    control_style:
-      controlAgree >= 4 ? "over-optimize" : "adaptive",
-
-    stress_response:
-      pressureAgree >= 2 ? "pressure-focus" : "pressure-withdraw"
+  /**
+   * Output is FLAGS ONLY
+   * Downstream may use this for:
+   * - reliability gating
+   * - confidence weighting
+   */
+  return {
+    flags: {
+      extreme_switch,
+      contradiction_count
+    }
   };
-
-  /* =========================
-     DELTAS (instability)
-  ========================= */
-  const deltas = {
-    contradiction_count: contradictionCount,
-    extreme_switch: extremeSwitch
-  };
-
-  return { signals, deltas };
 }
 
 module.exports = {

@@ -1,17 +1,22 @@
-console.log("🔥🔥 THIS IS ROOT app.js WITH HEALTH 🔥🔥");
-
-// app.js
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
 
 const { registerQ19Routes } = require("./src/api/q19Routes");
 
 const app = express();
-const PORT = process.env.PORT || 10000;
 
-// middlewares
+// 🔒 MIRAMI 固定 Port（不使用 env）
+const PORT = 10000;
+
+// Middlewares
 app.use(cors());
 app.use(express.json());
+
+// Routes
+registerQ19Routes(app);
+
+// Health check
 app.get("/health", (req, res) => {
   res.json({
     status: "ok",
@@ -20,19 +25,7 @@ app.get("/health", (req, res) => {
   });
 });
 
-// register modules
-registerQ19Routes(app);
-
-// health / root
-app.get("/", (req, res) => {
-  res.json({
-    status: "ok",
-    service: "mirami-backend",
-    time: new Date().toISOString()
-  });
-});
-
-// start server
+// Start server
 app.listen(PORT, () => {
-  console.log(`MIRAMI backend listening on port ${PORT}`);
+  console.log("🚀 MIRAMI backend listening on port", PORT);
 });
