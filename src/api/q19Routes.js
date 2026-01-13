@@ -10,11 +10,27 @@ const {
   getQ19ReportById
 } = require("../core/memory/q19MemoryStore");
 
+/**
+ * Q19 API Routes
+ * --------------------------------
+ * Backend responsibilities ONLY:
+ * - Generate report_id
+ * - Store analysis & final_report
+ * - Serve report by report_id
+ *
+ * ❌ No redirect
+ * ❌ No session logic
+ * ❌ No frontend assumptions
+ */
 function registerQ19Routes(app) {
   const router = express.Router();
 
   /**
+   * ======================================
    * POST /api/q19/submit
+   * - Single source of truth for report_id
+   * - Returns report_id for frontend redirect
+   * ======================================
    */
   router.post("/submit", async (req, res) => {
     try {
@@ -26,6 +42,7 @@ function registerQ19Routes(app) {
 
       const { answers, session_id, started_at } = req.body || {};
 
+      // 基本防呆
       if (!answers || typeof answers !== "object") {
         return res.status(400).json({
           error: "answers must be an object",
@@ -33,7 +50,7 @@ function registerQ19Routes(app) {
         });
       }
 
-      // ① 核心引擎（⭐ report_id 唯一來源）
+      // ① 核心引擎（唯一產生 report_id）
       const coreResult = await runQ19({
         answers,
         session_id: session_id || null,
@@ -42,10 +59,10 @@ function registerQ19Routes(app) {
 
       const { report_id, reliability } = coreResult;
 
-      // ② 純分析
+      // ② 純分析（無語言、無推論）
       const analysisJSON = analyzeQ19ToJSON(answers);
 
-      // ③ 存 analysis（用同一個 report_id）
+      // ③ 儲存 analysis（與 report_id 綁定）
       saveQ19Analysis({
         report_id,
         session_id: session_id || null,
@@ -53,7 +70,7 @@ function registerQ19Routes(app) {
         analysis: analysisJSON
       });
 
-      // ④ 組 MIRAMI payload（直接用 report_id）
+      // ④ 組 MIRAMI payload
       const payload = buildQ19Payload(
         { report_id, session_id },
         analysisJSON,
@@ -62,21 +79,26 @@ function registerQ19Routes(app) {
 
       console.log("[Q19 SUBMIT] calling sendToMIRAMI");
 
-      // ⑤ 呼叫 MIRAMI
+      // ⑤ 呼叫 MIRAMI（唯一語言來源）
       const miramiResult = await sendToMIRAMI(payload);
 
+      if (!miramiResult || !miramiResult.content) {
+        throw new Error("MIRAMI_EMPTY_RESPONSE");
+      }
+
       console.log(
-        "[Q19 SUBMIT] MIRAMI returned content length:",
-        miramiResult?.content?.length
+        "[Q19 SUBMIT] MIRAMI content length:",
+        miramiResult.content.length
       );
 
-      // ⑥ 存 final_report（⭐ 關鍵）
+      // ⑥ 儲存 final_report（給 Step 3 使用）
       saveQ19Analysis({
         report_id,
         final_report: miramiResult.content
       });
 
-      // ⑦ 回傳前端（⭐ 絕不再是 null）
+      // ⑦ 回傳給前端
+      // 👉 前端只需要 report_id 來 redirect
       return res.json({
         status: "ok",
         report_id,
@@ -98,7 +120,13 @@ function registerQ19Routes(app) {
   });
 
   /**
-   * ✅ STEP 2：GET /api/q19/report?rid=xxx
+   * ======================================
+   * GET /api/q19/report?rid=xxx
+   * Step 3-2:
+   * - URL is the ONLY truth
+   * - No session
+   * - No localStorage
+   * ======================================
    */
   router.get("/report", async (req, res) => {
     try {
