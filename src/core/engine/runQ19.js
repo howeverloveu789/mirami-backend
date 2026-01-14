@@ -4,14 +4,11 @@ const { writeQ19Trace } = require("../trace/q19TraceStore");
 console.log("🔥 LOADED runQ19 FROM:", __filename);
 
 /**
- * Q19 Core Engine — 27 題版
- * ✅ Deterministic
- * ✅ Gate only
+ * Q19 Core Engine — 28 題版
+ * Deterministic
+ * Gate only
  * ❌ No language
- * ❌ No interpretation
- * ❌ No report knowledge
- *
- * ⚠️ Memory write 已移除（由 q19MemoryStore 統一負責）
+ * ❌ No report logic
  */
 async function runQ19(input = {}) {
   const {
@@ -20,18 +17,14 @@ async function runQ19(input = {}) {
     started_at = null
   } = input;
 
-  // ① 作答數量
   const answeredCount = Object.keys(answers).length;
 
-  // ② RELIABILITY GATE（27 題邏輯）
   const reliability = computeReliability(answers);
   const allowMemory = reliability.level !== "low";
 
-  // ③ REPORT ID（⭐ 全系統唯一 anchor）
   const report_id = crypto.randomUUID();
   console.log("[Q19] run, report_id =", report_id);
 
-  // ④ TRACE WRITE（只給 replay / debug 用）
   try {
     writeQ19Trace({
       report_id,
@@ -44,15 +37,17 @@ async function runQ19(input = {}) {
     console.error("[Q19 TRACE ERROR]", err);
   }
 
-  // ⑤ CORE RESPONSE（⭐ report_id 必須在最外層）
+  // ⭐ 關鍵修正：把 answers 一併往下傳
   return {
-    report_id,          // ⭐ 關鍵：後端 / API / 前端唯一來源
+    report_id,
+    answers,              // ← 新增（非常重要）
     reliability,
     gate: {
       allowMemory
     },
     meta: {
       test_id: "Q19",
+      question_count: 28,
       started_at,
       timestamp: new Date().toISOString()
     }
@@ -60,15 +55,15 @@ async function runQ19(input = {}) {
 }
 
 /* =========================
-   RELIABILITY CHECK（27 題版）
+   RELIABILITY CHECK（28 題）
 ========================= */
 function computeReliability(answers = {}) {
   const totalAnswered = Object.keys(answers).length;
   let score = 1.0;
 
-  if (totalAnswered < 24) {
+  if (totalAnswered < 25) {
     score -= 0.4;
-  } else if (totalAnswered < 27) {
+  } else if (totalAnswered < 28) {
     score -= 0.2;
   }
 
@@ -91,7 +86,7 @@ function computeReliability(answers = {}) {
 function allSameAnswer(answers = {}) {
   const vals = Object.values(answers);
   if (vals.length === 0) return false;
-  return vals.every((v) => v === vals[0]);
+  return vals.every(v => v === vals[0]);
 }
 
 module.exports = {

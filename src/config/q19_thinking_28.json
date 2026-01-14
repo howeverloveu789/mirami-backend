@@ -1,9 +1,9 @@
 {
   "meta": {
-    "id": "mirami_q19_thinking_27",
+    "id": "mirami_q19_thinking_28",
     "tier": 19,
     "language": "en-US-only-output",
-    "total_questions": 27,
+    "total_questions": 28,
     "purpose": "reveal_thinking_structure",
     "system_type": "structure_revelation_only",
     "no_advice": true
@@ -30,7 +30,7 @@
     "feedback_processing":   ["q16", "q17", "q18"],
     "energy_curve":          ["q19", "q20", "q21"],
     "pressure_response":     ["q22", "q23", "q24"],
-    "closure_pattern":       ["q25", "q26", "q27"]
+    "closure_pattern":       ["q25", "q26", "q27", "q28"]
   },
 
   "questions": [
@@ -283,6 +283,15 @@
         "Ease out",
         "Reflect then move on",
         "Detach quickly"
+      ]
+    },
+    {
+      "id": "q28",
+      "text": "When something important is unfinished:",
+      "options": [
+        "Close it anyway to regain momentum",
+        "Keep it in view while moving on",
+        "Avoid closure until conditions change"
       ]
     }
   ]

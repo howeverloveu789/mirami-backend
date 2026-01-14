@@ -3,17 +3,14 @@
 const {
   AXIS_MAP,
   OPTION_SCORE
-} = require("../../config/q19_thinking_27.json");
+} = require("../../config/q19_thinking_28.json");
 
 /**
  * Q19_ANALYSIS_JSON_v1
  * CLEANED & REWEIGHTED VERSION
  *
- * Core fix:
- * - Preserve raw weight (do NOT flatten differences)
- * - Separate raw_sum vs normalized display state
- * - Strong bias detection prefers lived asymmetry
- * - Remove narrative leakage (no sentences here)
+ * Structure-only
+ * No narrative
  */
 
 function analyzeQ19ToJSON(answers = {}) {
@@ -23,8 +20,8 @@ function analyzeQ19ToJSON(answers = {}) {
 
   const answeredCount = Object.keys(answers).length;
   let confidence_level = "high";
-  if (answeredCount < 27) confidence_level = "medium";
-  if (answeredCount < 24) confidence_level = "low";
+  if (answeredCount < 28) confidence_level = "medium";
+  if (answeredCount < 25) confidence_level = "low";
 
   for (const [axis, questions] of Object.entries(AXIS_MAP)) {
     const rawScores = [];
@@ -36,45 +33,42 @@ function analyzeQ19ToJSON(answers = {}) {
       }
     });
 
-    // ===== CORE CHANGE #1: preserve raw weight, allow empty =====
-const raw_sum =
-  rawScores.length > 0
-    ? rawScores.reduce((a, b) => a + b, 0)
-    : 0;
+    // raw weight preserved
+    const raw_sum =
+      rawScores.length > 0
+        ? rawScores.reduce((a, b) => a + b, 0)
+        : 0;
 
-    // normalized is ONLY for color / UI thresholds
     const normalized = Math.max(-2, Math.min(2, raw_sum));
 
-    // ===== CORE CHANGE #2: bias-first signal strength =====
+    // signal strength (supports 3 or 4 questions)
     let signal_strength = "weak";
-    if (rawScores.length === 3) {
+    if (rawScores.length >= 3) {
       const counts = {};
       rawScores.forEach(v => counts[v] = (counts[v] || 0) + 1);
       const maxCount = Math.max(...Object.values(counts));
 
       if (maxCount >= 2) {
-        signal_strength = "strong"; // 2 votes = lived bias
+        signal_strength = "strong";
       } else {
         signal_strength = "moderate";
       }
     }
 
-    // ===== CORE CHANGE #3: state based on normalized only =====
     let state = "green";
     if (Math.abs(normalized) === 1) state = "yellow";
     if (Math.abs(normalized) === 2) state = "red";
 
     if (state === "red") redAxes.push(axis);
 
-    // ===== CORE CHANGE #4: mode uses raw_sum (not flattened) =====
     const mode = deriveMode(raw_sum);
 
     axis_results[axis] = {
-      raw_sum,          // real weight (DO NOT REMOVE)
-      normalized,       // display-safe value
-      state,            // green / yellow / red
-      mode,             // amplified / constrained / baseline
-      signal_strength   // weak / moderate / strong
+      raw_sum,
+      normalized,
+      state,
+      mode,
+      signal_strength
     };
 
     scoredAxes.push({
@@ -84,7 +78,6 @@ const raw_sum =
     });
   }
 
-  // ===== Dominant & fragile use raw weight =====
   const dominant = scoredAxes
     .filter(a => a.signal_strength === "strong")
     .sort((a, b) => Math.abs(b.raw_sum) - Math.abs(a.raw_sum))[0] || null;
@@ -95,7 +88,7 @@ const raw_sum =
 
   const overload_risk =
     redAxes.length >= 2 &&
-    (redAxes.includes("tension_management") ||
+    (redAxes.includes("pressure_response") ||
      redAxes.includes("uncertainty_tolerance"));
 
   const global_flags = {
@@ -106,9 +99,6 @@ const raw_sum =
     fragile_axis: fragile ? fragile.axis : null
   };
 
-  // NOTE:
-  // handoff_to_P is kept ONLY as meta reference.
-  // MIRAMI / VARO must NOT read this as instruction text.
   const handoff_to_P = {
     allowed_focus: ["movement", "pacing", "tension", "closure"],
     forbidden_moves: ["labeling", "diagnosis", "advice"],
@@ -119,7 +109,7 @@ const raw_sum =
     meta: {
       version: "Q19_ANALYSIS_JSON_v1",
       axis_count: 9,
-      question_count: 27,
+      question_count: 28,
       scoring_mode: "behavioral_choice",
       confidence_level
     },

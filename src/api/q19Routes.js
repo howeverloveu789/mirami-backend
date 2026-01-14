@@ -1,9 +1,10 @@
+console.log("🔥 Q19 ROUTE FILE LOADED:", __filename);
 const express = require("express");
 
 const { runQ19 } = require("../core/engine/runQ19");
 const { analyzeQ19ToJSON } = require("../core/analysis/analyzeQ19ToJSON");
 const { buildQ19Payload } = require("../core/report/buildQ19Payload");
-const { sendToMIRAMI } = require("../core/report/sendToMIRAMI");
+const { resolveFinalReport } = require("../core/report/resolveFinalReport");
 
 const {
   saveQ19Analysis,
@@ -18,8 +19,7 @@ const {
  * - Store analysis & final_report
  * - Serve report by report_id
  *
- * ❌ No redirect
- * ❌ No session logic
+ * ❌ No redirect logic
  * ❌ No frontend assumptions
  */
 function registerQ19Routes(app) {
@@ -28,8 +28,6 @@ function registerQ19Routes(app) {
   /**
    * ======================================
    * POST /api/q19/submit
-   * - Single source of truth for report_id
-   * - Returns report_id for frontend redirect
    * ======================================
    */
   router.post("/submit", async (req, res) => {
@@ -59,10 +57,10 @@ function registerQ19Routes(app) {
 
       const { report_id, reliability } = coreResult;
 
-      // ② 純分析（無語言、無推論）
+      // ② 純分析（無語言）
       const analysisJSON = analyzeQ19ToJSON(answers);
 
-      // ③ 儲存 analysis（與 report_id 綁定）
+      // ③ 儲存 analysis
       saveQ19Analysis({
         report_id,
         session_id: session_id || null,
@@ -70,42 +68,58 @@ function registerQ19Routes(app) {
         analysis: analysisJSON
       });
 
-      // ④ 組 MIRAMI payload
+      // ④ 組 payload（給 report layer 使用）
       const payload = buildQ19Payload(
         { report_id, session_id },
         analysisJSON,
         reliability
       );
 
-      console.log("[Q19 SUBMIT] calling sendToMIRAMI");
+      // ⑤ 由 report layer 決定最終輸出
+      const resolved = await resolveFinalReport({
+        answers,
+        payload
+      });
 
-      // ⑤ 呼叫 MIRAMI（唯一語言來源）
-      const miramiResult = await sendToMIRAMI(payload);
+      /**
+       * Normalize final result
+       * - transitional: { mode, final_report }
+       * - mirami: { content }
+       */
+      const final_report =
+        resolved.final_report ||
+        resolved.content ||
+        null;
 
-      if (!miramiResult || !miramiResult.content) {
-        throw new Error("MIRAMI_EMPTY_RESPONSE");
+      const mode =
+        resolved.mode || "mirami";
+
+      if (!final_report) {
+        throw new Error("FINAL_REPORT_EMPTY");
       }
 
       console.log(
-        "[Q19 SUBMIT] MIRAMI content length:",
-        miramiResult.content.length
+        "[Q19 SUBMIT] final_report length:",
+        final_report.length,
+        "mode:",
+        mode
       );
 
-      // ⑥ 儲存 final_report（給 Step 3 使用）
+      // ⑥ 儲存 final_report
       saveQ19Analysis({
         report_id,
-        final_report: miramiResult.content
+        final_report
       });
 
       // ⑦ 回傳給前端
-      // 👉 前端只需要 report_id 來 redirect
       return res.json({
         status: "ok",
         report_id,
-        final_report: miramiResult.content,
+        final_report,
         __debug: {
           route: "POST /api/q19/submit",
-          version: "Q19_SUBMIT_V2026_01_11_FINAL"
+          version: "Q19_SUBMIT_V2026_01_11_FINAL",
+          mode
         }
       });
 
@@ -122,10 +136,6 @@ function registerQ19Routes(app) {
   /**
    * ======================================
    * GET /api/q19/report?rid=xxx
-   * Step 3-2:
-   * - URL is the ONLY truth
-   * - No session
-   * - No localStorage
    * ======================================
    */
   router.get("/report", async (req, res) => {
