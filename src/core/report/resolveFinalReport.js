@@ -35,9 +35,17 @@ function normalizeAnswers(answers = {}) {
 
 /**
  * 最終輸出決策器
+ * @param {Object} payload
+ * @param {Object} payload.answers
  */
-async function resolveFinalReport({ answers = {}, payload }) {
+async function resolveFinalReport(payload = {}) {
   console.log("🔥 RESOLVE_FINAL_REPORT_HIT");
+
+  const { answers } = payload;
+
+  if (!answers || typeof answers !== "object") {
+    throw new Error("RESOLVE_FINAL_REPORT_NO_ANSWERS");
+  }
 
   const normalizedAnswers = normalizeAnswers(answers);
   console.log("🧪 [FINAL REPORT] normalizedAnswers =", normalizedAnswers);
