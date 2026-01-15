@@ -10,17 +10,6 @@ const {
   getQ19ReportById
 } = require("../core/memory/q19MemoryStore");
 
-/**
- * Q19 API Routes
- * --------------------------------
- * Backend responsibilities ONLY:
- * - Generate report_id
- * - Store analysis & final_report
- * - Serve report by report_id
- *
- * ❌ No redirect logic
- * ❌ No frontend assumptions
- */
 function registerQ19Routes(app) {
   const router = express.Router();
 
@@ -30,16 +19,16 @@ function registerQ19Routes(app) {
    * ======================================
    */
   router.post("/submit", async (req, res) => {
-    try {
-      console.log("========================================");
-      console.log("[Q19 SUBMIT] HIT /api/q19/submit");
-      console.log("[Q19 SUBMIT] time:", new Date().toISOString());
-      console.log("[Q19 SUBMIT] body keys:", Object.keys(req.body || {}));
-      console.log("========================================");
+    console.log("========================================");
+    console.log("[Q19 SUBMIT] HIT /api/q19/submit");
+    console.log("[Q19 SUBMIT] time:", new Date().toISOString());
+    console.log("[Q19 SUBMIT] body keys:", Object.keys(req.body || {}));
+    console.log("========================================");
 
+    try {
       const { answers, session_id, started_at } = req.body || {};
 
-      // 基本防呆
+      // 0️⃣ 基本防呆
       if (!answers || typeof answers !== "object") {
         return res.status(400).json({
           error: "answers must be an object",
@@ -47,13 +36,17 @@ function registerQ19Routes(app) {
         });
       }
 
-      // ① 核心引擎（唯一產生 report_id）
-      const coreResult = await runQ19({
+      // 🔒 payload：唯一真實來源
+      const payload = {
         answers,
-        session_id: session_id || null,
-        started_at: started_at || null
-      });
+        session_id: session_id ?? null,
+        started_at: started_at ?? null
+      };
 
+      console.log("[Q19 SUBMIT] payload prepared");
+
+      // ① 核心引擎（產生 report_id）
+      const coreResult = await runQ19(payload);
       const { report_id, reliability } = coreResult;
 
       // ② 純分析（無語言）
@@ -62,29 +55,20 @@ function registerQ19Routes(app) {
       // ③ 儲存 analysis
       saveQ19Analysis({
         report_id,
-        session_id: session_id || null,
-        reliability_level: reliability.level,
+        session_id: payload.session_id,
+        reliability_level: reliability?.level ?? null,
         analysis: analysisJSON
       });
 
-      // ⑤ 由 report layer 決定最終輸出
-      const resolved = await resolveFinalReport({
-        answers,
-        payload
-      });
+      // ④ 最終報告（只傳 payload）
+      const resolved = await resolveFinalReport(payload);
 
-      /**
-       * Normalize final result
-       * - transitional: { mode, final_report }
-       * - mirami: { content }
-       */
       const final_report =
-        resolved.final_report ||
-        resolved.content ||
+        resolved?.final_report ??
+        resolved?.content ??
         null;
 
-      const mode =
-        resolved.mode || "mirami";
+      const mode = resolved?.mode ?? "mirami";
 
       if (!final_report) {
         throw new Error("FINAL_REPORT_EMPTY");
@@ -97,20 +81,20 @@ function registerQ19Routes(app) {
         mode
       );
 
-      // ⑥ 儲存 final_report
+      // ⑤ 儲存 final_report
       saveQ19Analysis({
         report_id,
         final_report
       });
 
-      // ⑦ 回傳給前端
+      // ⑥ 回傳給前端
       return res.json({
         status: "ok",
         report_id,
         final_report,
         __debug: {
           route: "POST /api/q19/submit",
-          version: "Q19_SUBMIT_V2026_01_11_FINAL",
+          version: "Q19_SUBMIT_V2026_01_15_LOCKED",
           mode
         }
       });
@@ -119,7 +103,6 @@ function registerQ19Routes(app) {
       console.error("[Q19 SUBMIT ERROR]", err);
       return res.status(500).json({
         error: "internal error",
-        message: err.message,
         __debug: "Q19_SUBMIT_EXCEPTION"
       });
     }
@@ -130,7 +113,7 @@ function registerQ19Routes(app) {
    * GET /api/q19/report?rid=xxx
    * ======================================
    */
-  router.get("/report", async (req, res) => {
+  router.get("/report", (req, res) => {
     try {
       const { rid } = req.query;
 
