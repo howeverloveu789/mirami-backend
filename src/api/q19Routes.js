@@ -3,7 +3,6 @@ const express = require("express");
 
 const { runQ19 } = require("../core/engine/runQ19");
 const { analyzeQ19ToJSON } = require("../core/analysis/analyzeQ19ToJSON");
-const { buildQ19Payload } = require("../core/report/buildQ19Payload");
 const { resolveFinalReport } = require("../core/report/resolveFinalReport");
 
 const {
@@ -67,13 +66,6 @@ function registerQ19Routes(app) {
         reliability_level: reliability.level,
         analysis: analysisJSON
       });
-
-      // ④ 組 payload（給 report layer 使用）
-      const payload = buildQ19Payload(
-        { report_id, session_id },
-        analysisJSON,
-        reliability
-      );
 
       // ⑤ 由 report layer 決定最終輸出
       const resolved = await resolveFinalReport({

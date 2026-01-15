@@ -1,5 +1,3 @@
-throw new Error("🔥 RESOLVE_FINAL_REPORT_REACHED");
-
 /**
  * resolveFinalReport — FINAL (LOCKED)
  * 系統最終出口（不可違反）
@@ -18,8 +16,7 @@ const { isNeutralDistribution } = require("./distributionGate");
 
 /**
  * normalizeAnswers
- * - 將 answers 統一轉成 ["A","B","C"] array
- * - 防止前端送成 { value: "B" }、{ answer: "B" } 等結構
+ * - 將 answers 統一轉成 ["A","B","C"]
  */
 function normalizeAnswers(answers = {}) {
   if (!answers || typeof answers !== "object") return [];
@@ -36,11 +33,13 @@ function normalizeAnswers(answers = {}) {
     .filter(v => v === "A" || v === "B" || v === "C");
 }
 
+/**
+ * 最終輸出決策器
+ */
 async function resolveFinalReport({ answers = {}, payload }) {
   console.log("🔥 RESOLVE_FINAL_REPORT_HIT");
 
   const normalizedAnswers = normalizeAnswers(answers);
-
   console.log("🧪 [FINAL REPORT] normalizedAnswers =", normalizedAnswers);
 
   // ================================
