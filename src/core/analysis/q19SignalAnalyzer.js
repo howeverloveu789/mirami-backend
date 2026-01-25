@@ -1,61 +1,43 @@
-// src/core/analysis/q19SignalAnalyzer.js
+// === 完全對齊你專案的 q19SignalAnalyzer.js 最終版 ===
 
 /**
- * Q19 Signal Consistency Analyzer
- *
- * Purpose:
- * - Detect internal inconsistencies or instability in answers
- * - Provide FLAGS ONLY (no labels, no interpretation)
- *
- * This module MUST NOT:
- * - Describe personality or style
- * - Generate language
- * - Be used directly in user-facing output
+ * Analyze signals and deltas from Q19 answers
+ * - Detects RED FLAG triggers
+ * - Detects sudden shifts
  */
 
-function analyzeQ19Signals({ answers = {} }) {
-  let contradiction_count = 0;
-  let extreme_switch = false;
+function analyzeSignals(answers = {}) {
+  const signals = {};
+  const deltas = {};
 
-  const values = Object.values(answers);
-
-  const agreeCount = values.filter(v => v === "agree").length;
-  const disagreeCount = values.filter(v => v === "disagree").length;
-
-  // 極端分裂：大量 agree 與 disagree 同時存在
-  if (agreeCount > 18 && disagreeCount > 18) {
-    extreme_switch = true;
-    contradiction_count += 2;
-  }
-
-  // 高反轉密度（短題距內反向）
-  // 注意：這裡不判斷「好壞」，只記錄不穩定
-  let flipCount = 0;
-  let last = null;
-
-  for (const v of values) {
-    if (last && v !== last) flipCount++;
-    last = v;
-  }
-
-  if (flipCount > values.length * 0.6) {
-    contradiction_count += 1;
-  }
-
-  /**
-   * Output is FLAGS ONLY
-   * Downstream may use this for:
-   * - reliability gating
-   * - confidence weighting
-   */
-  return {
-    flags: {
-      extreme_switch,
-      contradiction_count
+  // RED FLAG detection
+  const redFlagQuestions = ["q5", "q10", "q17", "q24"];
+  for (const q of redFlagQuestions) {
+    if (answers[q] === "C") {
+      signals[q] = "RED_FLAG";
     }
-  };
+  }
+
+  // Delta detection (simple version)
+  const groups = [
+    ["q1", "q2", "q3", "q4", "q5", "q6", "q7"],
+    ["q8", "q9", "q10", "q11", "q12", "q13", "q14"],
+    ["q15", "q16", "q17", "q18", "q19", "q20", "q21"],
+    ["q22", "q23", "q24", "q25", "q26", "q27", "q28"]
+  ];
+
+  groups.forEach((group, i) => {
+    let A = 0, B = 0, C = 0;
+    for (const q of group) {
+      const v = answers[q];
+      if (v === "A") A++;
+      else if (v === "B") B++;
+      else if (v === "C") C++;
+    }
+    deltas["group_" + (i + 1)] = { A, B, C };
+  });
+
+  return { signals, deltas };
 }
 
-module.exports = {
-  analyzeQ19Signals
-};
+module.exports = { analyzeSignals };

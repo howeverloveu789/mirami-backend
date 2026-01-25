@@ -1,88 +1,74 @@
-/**
- * resolveFinalReport — FINAL (LOCKED)
- * 系統最終出口（不可違反）
- *
- * 規則：
- * - 只依賴 answers distribution
- * - 一旦進入「過渡鏡子」，MIRAMI 永遠不會被呼叫
- * - 不依賴 reliability、不看 analysis、不看 prompt
- */
+// src/report/resolveFinalReport.js
+console.log("🔥 RESOLVE_FINAL_REPORT_FILE_LOADED (Q19 LOCKED)");
 
-console.log("🔥 RESOLVE_FINAL_REPORT_FILE_LOADED");
-
-const transitionalMirror = require("./fallback/transitionalMirror.en.json");
 const { sendToMIRAMI } = require("./sendToMIRAMI");
-const { isNeutralDistribution } = require("./distributionGate");
+const { saveQ19Analysis } =
+  require("../memory/saveQ19Analysis.v1");
 
 /**
- * normalizeAnswers
- * - 將 answers 統一轉成 ["A","B","C"]
+ * Q19 FINAL RESOLVER
+ * - No language assembly
+ * - No context expansion
+ * - No interpretation
+ * - Delegates ALL language to MIRAMI
  */
-function normalizeAnswers(answers = {}) {
-  if (!answers || typeof answers !== "object") return [];
+async function resolveFinalReport(payload) {
+  const {
+    answers,            // kept for interface compatibility
+    currentState,       // A / B / C (single source of truth)
+    session_id,
+    report_id,
+    reliability_level,
+    slots               // ← NEW: explicit slots passed through
+  } = payload;
 
-  return Object.values(answers)
-    .map(v => {
-      if (typeof v === "string") return v;
-      if (v && typeof v === "object") {
-        if (typeof v.value === "string") return v.value;
-        if (typeof v.answer === "string") return v.answer;
-      }
-      return null;
-    })
-    .filter(v => v === "A" || v === "B" || v === "C");
-}
-
-/**
- * 最終輸出決策器
- * @param {Object} payload
- * @param {Object} payload.answers
- */
-async function resolveFinalReport(payload = {}) {
-  console.log("🔥 RESOLVE_FINAL_REPORT_HIT");
-
-  const { answers } = payload;
-
-  if (!answers || typeof answers !== "object") {
-    throw new Error("RESOLVE_FINAL_REPORT_NO_ANSWERS");
+  if (!currentState) {
+    throw new Error("Q19 resolveFinalReport: currentState missing");
   }
 
-  const normalizedAnswers = normalizeAnswers(answers);
-  console.log("🧪 [FINAL REPORT] normalizedAnswers =", normalizedAnswers);
-
-  // ================================
-  // DISTRIBUTION GATE（最終寫死）
-  // ================================
-  if (isNeutralDistribution(normalizedAnswers)) {
-    console.log("🧪 NEUTRAL_DISTRIBUTION = TRUE → USE TRANSITIONAL MIRROR");
-
-    return {
-      mode: "transitional_fixed",
-      final_report: [
-        transitionalMirror.key_line,
-        "",
-        ...transitionalMirror.content
-      ].join("\n\n")
-    };
+  // 🔒 HARD GUARD — state must be A / B / C
+  if (!["A", "B", "C"].includes(currentState)) {
+    throw new Error(
+      `Q19 resolveFinalReport: invalid state "${currentState}"`
+    );
   }
 
-  // ================================
-  // 非過渡狀態，唯一允許 MIRAMI
-  // ================================
-  console.log("🚀 NON-NEUTRAL → CALL MIRAMI");
-
-  const miramiResult = await sendToMIRAMI(payload);
-
-  if (!miramiResult || !miramiResult.content) {
-    throw new Error("MIRAMI_EMPTY_RESPONSE");
+  // 🔒 HARD GUARD — slots must exist (even if minimal)
+  if (!slots || typeof slots !== "object") {
+    throw new Error("Q19 resolveFinalReport: slots missing");
   }
+
+  /* ─────────────────────────────
+     ① Language: MIRROR ONLY
+     - BODY + RED FLAG handled internally
+     - No language allowed here
+  ───────────────────────────── */
+
+  const miramiResult = await sendToMIRAMI({
+    state: currentState, // ✅ FIXED: correct param name
+    slots
+  });
+
+  /* ─────────────────────────────
+     ② Memory: STRUCTURE ONLY
+     - No language stored
+  ───────────────────────────── */
+
+  saveQ19Analysis({
+    session_id,
+    report_id,
+    state: currentState,
+    reliability_level: reliability_level ?? null
+  });
 
   return {
     mode: "mirami",
-    final_report: miramiResult.content
+    final_report: miramiResult.content,
+    meta: {
+      state: currentState,
+      used_fallback: false
+    }
   };
 }
 
-module.exports = {
-  resolveFinalReport
-};
+module.exports = { resolveFinalReport };

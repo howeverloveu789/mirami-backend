@@ -10,8 +10,8 @@
   },
 
   "answer_scale": {
-    "A": { "score": 1,  "label": "option_1" },
-    "B": { "score": 0,  "label": "option_2" },
+    "A": { "score": 1, "label": "option_1" },
+    "B": { "score": 0, "label": "option_2" },
     "C": { "score": -1, "label": "option_3" }
   },
 
@@ -38,27 +38,27 @@
       "id": "q01",
       "text": "Before making an important decision, you usually:",
       "options": [
-        "Focus on one clear path and move",
-        "Run two or three future paths in parallel",
-        "Delay until external information settles"
+        "Commit to one clear direction and move",
+        "Hold several possible directions at once",
+        "Wait and keep the decision open for now"
       ]
     },
     {
       "id": "q02",
       "text": "When thinking about the future of a project:",
       "options": [
-        "Lock onto the most likely outcome",
-        "Keep several outcomes alive mentally",
-        "Avoid projecting too far ahead"
+        "Focus on the most likely path",
+        "Mentally explore a few different outcomes",
+        "Avoid shaping the future until it becomes clearer"
       ]
     },
     {
       "id": "q03",
       "text": "If someone asks for your long-term plan:",
       "options": [
-        "Give a clear linear answer",
-        "Describe multiple scenarios",
-        "Resist defining it yet"
+        "Describe a clear trajectory",
+        "Describe a range of possibilities",
+        "Say it is still forming"
       ]
     },
 
@@ -66,83 +66,83 @@
       "id": "q04",
       "text": "When starting something unfamiliar:",
       "options": [
-        "Begin and adjust as you go",
-        "Calibrate first, then act",
-        "Wait for a trigger"
+        "Begin and adjust along the way",
+        "Prepare and sense the timing first",
+        "Wait until a clearer signal appears"
       ]
     },
     {
       "id": "q05",
-      "text": "A task matters but instructions are vague:",
+      "text": "A task matters but instructions are unclear:",
       "options": [
-        "Start anyway",
-        "Clarify first",
-        "Postpone engagement"
+        "Start working with what is available",
+        "Clarify expectations before moving",
+        "Delay engagement until the picture sharpens"
       ]
     },
     {
       "id": "q06",
-      "text": "New responsibility appears suddenly:",
+      "text": "A new responsibility appears suddenly:",
       "options": [
-        "Step in immediately",
-        "Assess timing and scope",
-        "Hesitate"
+        "Step in and take it on",
+        "Pause to assess scope and timing",
+        "Create distance before responding"
       ]
     },
 
     {
       "id": "q07",
-      "text": "Your work pace is mainly driven by:",
+      "text": "Your working pace is usually guided by:",
       "options": [
-        "Internal timing",
-        "A mix of cues",
-        "External pressure"
+        "Your own internal rhythm",
+        "A balance of internal and external cues",
+        "External demands and conditions"
       ]
     },
     {
       "id": "q08",
-      "text": "When others rush you:",
+      "text": "When others push for speed:",
       "options": [
-        "Keep your own pace",
-        "Partially adapt",
-        "Fully shift"
+        "Maintain your own pace",
+        "Adjust partially",
+        "Let their pace set the rhythm"
       ]
     },
     {
       "id": "q09",
-      "text": "If there is no deadline:",
+      "text": "If no deadline exists:",
       "options": [
-        "Move steadily",
-        "Move inconsistently",
-        "Stall"
+        "Continue moving steadily",
+        "Move in waves",
+        "Slow down until a reason appears"
       ]
     },
 
     {
       "id": "q10",
-      "text": "When outcomes are unclear:",
+      "text": "When outcomes are uncertain:",
       "options": [
-        "Continue exploring",
-        "Slow significantly",
-        "Disengage"
+        "Stay engaged and explore",
+        "Reduce speed to reassess",
+        "Step back from involvement"
       ]
     },
     {
       "id": "q11",
-      "text": "Facing ambiguous feedback:",
+      "text": "When feedback is ambiguous:",
       "options": [
-        "Interpret and proceed",
+        "Interpret it and continue",
         "Seek clarification",
-        "Pause involvement"
+        "Hold position without acting"
       ]
     },
     {
       "id": "q12",
-      "text": "Working without validation:",
+      "text": "Working without validation feels:",
       "options": [
-        "Feels acceptable",
-        "Feels unstable",
-        "Feels draining"
+        "Acceptable",
+        "Unsettling but manageable",
+        "Draining over time"
       ]
     },
 
@@ -150,27 +150,27 @@
       "id": "q13",
       "text": "With an open-ended goal:",
       "options": [
-        "Design your own framework",
-        "Adapt existing models",
-        "Wait for guidance"
+        "Create your own structure",
+        "Adapt structure as needed",
+        "Prefer guidance before structuring"
       ]
     },
     {
       "id": "q14",
       "text": "When systems are missing:",
       "options": [
-        "Create them",
-        "Improvise loosely",
-        "Feel blocked"
+        "Build them",
+        "Improvise lightly",
+        "Pause until systems exist"
       ]
     },
     {
       "id": "q15",
       "text": "Given freedom to organize work:",
       "options": [
-        "Build structure quickly",
-        "Build as needed",
-        "Prefer external structure"
+        "Design structure early",
+        "Let structure emerge",
+        "Rely on external frameworks"
       ]
     },
 
@@ -178,55 +178,55 @@
       "id": "q16",
       "text": "When receiving criticism:",
       "options": [
-        "Internalize and reflect",
-        "Adjust behavior",
-        "Disengage"
+        "Hold it internally and reflect",
+        "Translate it into adjustments",
+        "Create distance from it"
       ]
     },
     {
       "id": "q17",
       "text": "If feedback conflicts with your view:",
       "options": [
-        "Examine carefully",
-        "Selectively accept",
-        "Reject it"
+        "Examine it carefully",
+        "Select parts that resonate",
+        "Set it aside"
       ]
     },
     {
       "id": "q18",
       "text": "After negative feedback:",
       "options": [
-        "Recalibrate quietly",
-        "Ask questions",
-        "Pull back"
+        "Quietly recalibrate",
+        "Ask clarifying questions",
+        "Reduce engagement"
       ]
     },
 
     {
       "id": "q19",
-      "text": "At the start of a project:",
+      "text": "At the beginning of a project:",
       "options": [
-        "Invest heavily",
-        "Invest steadily",
-        "Stay cautious"
+        "Invest energy quickly",
+        "Invest at a measured pace",
+        "Stay reserved until momentum forms"
       ]
     },
     {
       "id": "q20",
       "text": "Midway through long work:",
       "options": [
-        "Energy drops",
-        "Energy stays even",
-        "Energy increases"
+        "Energy tapers",
+        "Energy stays consistent",
+        "Energy fluctuates in bursts"
       ]
     },
     {
       "id": "q21",
       "text": "Near completion:",
       "options": [
-        "Lose momentum",
-        "Push to finish",
-        "Re-evaluate"
+        "Momentum softens",
+        "Push to complete",
+        "Pause to reassess"
       ]
     },
 
@@ -235,26 +235,26 @@
       "text": "Under pressure:",
       "options": [
         "Absorb and stabilize",
-        "Reframe",
-        "Near breaking"
+        "Reframe the situation",
+        "Limit exposure to pressure"
       ]
     },
     {
       "id": "q23",
       "text": "When overloaded:",
       "options": [
-        "Slow internally",
+        "Slow down internally",
         "Renegotiate scope",
-        "Shut down"
+        "Narrow focus sharply"
       ]
     },
     {
       "id": "q24",
       "text": "Prolonged stress leads you to:",
       "options": [
-        "Quiet withdrawal",
-        "Strategic adjustment",
-        "Sudden release"
+        "Withdraw quietly",
+        "Adjust strategy",
+        "Release and reset"
       ]
     },
 
@@ -262,36 +262,36 @@
       "id": "q25",
       "text": "Finishing tasks:",
       "options": [
-        "Conclude naturally",
-        "Drag slightly",
-        "Require force"
+        "Let them close naturally",
+        "Take time before closure",
+        "End them deliberately to move on"
       ]
     },
     {
       "id": "q26",
       "text": "Loose ends usually:",
       "options": [
-        "Resolve naturally",
-        "Linger",
-        "Get cut"
+        "Resolve themselves",
+        "Remain in the background",
+        "Get intentionally cut"
       ]
     },
     {
       "id": "q27",
       "text": "When something ends:",
       "options": [
-        "Ease out",
-        "Reflect then move on",
-        "Detach quickly"
+        "Ease out gradually",
+        "Reflect briefly, then move on",
+        "Detach cleanly"
       ]
     },
     {
       "id": "q28",
       "text": "When something important is unfinished:",
       "options": [
-        "Close it anyway to regain momentum",
-        "Keep it in view while moving on",
-        "Avoid closure until conditions change"
+        "Close it to regain momentum",
+        "Keep it in view while continuing",
+        "Leave it open until conditions change"
       ]
     }
   ]

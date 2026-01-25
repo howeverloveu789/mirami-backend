@@ -1,101 +1,170 @@
-console.log("🔥 Q19 ROUTE FILE LOADED:", __filename);
+// === 完全對齊你專案的 Q19Routes.js 最終版 ===
+
+console.log("🔥 Q19 ROUTE FILE LOADED (v3.8 FULL PIPELINE):", __filename);
+
 const express = require("express");
 
+// Core deterministic engine
 const { runQ19 } = require("../core/engine/runQ19");
+
+// Pure structural analysis (no language)
 const { analyzeQ19ToJSON } = require("../core/analysis/analyzeQ19ToJSON");
-const { resolveFinalReport } = require("../core/report/resolveFinalReport");
 
-const {
-  saveQ19Analysis,
-  getQ19ReportById
-} = require("../core/memory/q19MemoryStore");
+// autoSafe MIRAMI v3.8
+const { autoSafeSendToMIRAMI } = require("../core/report/autoSafeSendToMIRAMI");
 
+// Structural memory (v1.2)
+const { saveQ19Analysis } = require("../core/memory/saveQ19Analysis.v1.2");
+
+// Long-term memory (MEMORY v2)
+const { saveQ19Memory } = require("../core/memory/q19MemoryStore");
+
+// Behavior Language Vault
+const { writeBehaviorEntry } = require("../core/memory/behaviorVault");
+
+// TRACES v2
+const { writeQ19Trace } = require("../core/memory/q19TraceStore");
+
+// A% calculator
+const { buildDistribution } = require("../core/q19/distributionBuilder");
+
+/**
+ * Validate Q19 payload
+ */
+function validateQ19Payload(body) {
+  const { answers, session_id, started_at } = body || {};
+
+  if (!answers || typeof answers !== "object" || Array.isArray(answers)) {
+    return { ok: false, reason: "answers must be an object map" };
+  }
+
+  if (Object.keys(answers).length === 0) {
+    return { ok: false, reason: "answers must not be empty" };
+  }
+
+  return {
+    ok: true,
+    payload: {
+      answers,
+      session_id: session_id ?? null,
+      started_at: started_at ?? null
+    }
+  };
+}
+
+/**
+ * Register Q19 Routes
+ */
 function registerQ19Routes(app) {
   const router = express.Router();
 
-  /**
-   * ======================================
-   * POST /api/q19/submit
-   * ======================================
-   */
   router.post("/submit", async (req, res) => {
-    console.log("========================================");
-    console.log("[Q19 SUBMIT] HIT /api/q19/submit");
-    console.log("[Q19 SUBMIT] time:", new Date().toISOString());
-    console.log("[Q19 SUBMIT] body keys:", Object.keys(req.body || {}));
-    console.log("========================================");
-
     try {
-      const { answers, session_id, started_at } = req.body || {};
-
-      // 0️⃣ 基本防呆
-      if (!answers || typeof answers !== "object") {
-        return res.status(400).json({
-          error: "answers must be an object",
-          __debug: "Q19_SUBMIT_VALIDATION_FAIL"
-        });
+      /* ─────────────────────────────
+         ① Validate payload
+      ───────────────────────────── */
+      const check = validateQ19Payload(req.body);
+      if (!check.ok) {
+        return res.status(400).json({ error: check.reason });
       }
+      const payload = check.payload;
 
-      // 🔒 payload：唯一真實來源
-      const payload = {
-        answers,
-        session_id: session_id ?? null,
-        started_at: started_at ?? null
-      };
-
-      console.log("[Q19 SUBMIT] payload prepared");
-
-      // ① 核心引擎（產生 report_id）
+      /* ─────────────────────────────
+         ② Core engine — determine state
+      ───────────────────────────── */
       const coreResult = await runQ19(payload);
-      const { report_id, reliability } = coreResult;
+      const { report_id, state, reliability } = coreResult;
 
-      // ② 純分析（無語言）
-      const analysisJSON = analyzeQ19ToJSON(answers);
+      if (!state) throw new Error("STATE_NOT_RETURNED_FROM_RUNQ19");
 
-      // ③ 儲存 analysis
+      /* ─────────────────────────────
+         ③ Structural analysis snapshot
+      ───────────────────────────── */
+      const analysis = analyzeQ19ToJSON(payload.answers);
+
+      /* ─────────────────────────────
+         ④ SLOT ASSEMBLY (STRUCTURE ONLY)
+      ───────────────────────────── */
+      const slots = analysis.slots;
+
+      /* ─────────────────────────────
+         ⑤ FINAL report resolution
+      ───────────────────────────── */
+      const result = await autoSafeSendToMIRAMI({
+        state,
+        slots
+      });
+
+      /* ─────────────────────────────
+         ⑥ Structural memory write (v1.2)
+      ───────────────────────────── */
       saveQ19Analysis({
         report_id,
         session_id: payload.session_id,
+        state,
         reliability_level: reliability?.level ?? null,
-        analysis: analysisJSON
+        analysis_snapshot: analysis.snapshot
       });
 
-      // ④ 最終報告（只傳 payload）
-      const resolved = await resolveFinalReport(payload);
+      /* ─────────────────────────────
+         ⑦ A% distribution
+      ───────────────────────────── */
+      const distribution = buildDistribution(payload.answers);
 
-      const final_report =
-        resolved?.final_report ??
-        resolved?.content ??
-        null;
-
-      const mode = resolved?.mode ?? "mirami";
-
-      if (!final_report) {
-        throw new Error("FINAL_REPORT_EMPTY");
-      }
-
-      console.log(
-        "[Q19 SUBMIT] final_report length:",
-        final_report.length,
-        "mode:",
-        mode
-      );
-
-      // ⑤ 儲存 final_report
-      saveQ19Analysis({
+      /* ─────────────────────────────
+         ⑧ Long-term memory (MEMORY v2)
+      ───────────────────────────── */
+      saveQ19Memory({
+        session_id: payload.session_id,
         report_id,
-        final_report
+        state,
+        answers: payload.answers,
+        distribution,
+        analysis_snapshot: analysis.snapshot
       });
 
-      // ⑥ 回傳給前端
+      /* ─────────────────────────────
+         ⑨ Behavior Language Vault
+      ───────────────────────────── */
+      writeBehaviorEntry({
+        state,
+        distribution,
+        axis_scores: analysis.axis_scores,
+        mirami_report: result.content,
+        session_id: payload.session_id
+      });
+
+      /* ─────────────────────────────
+         ⑩ TRACES v2 — full snapshot
+      ───────────────────────────── */
+      writeQ19Trace({
+        session_id: payload.session_id,
+        report_id,
+        version: "v3.8",
+        state,
+        answers: payload.answers,
+        slots,
+        final_report: result.content,
+        quality_score: result.quality?.score,
+        used_fallback: result.used_fallback,
+        attempts: result.attempts,
+        scoring: analysis.scoring,
+        reliability,
+        allowMemory: true,
+        signals: analysis.signals,
+        deltas: analysis.deltas
+      });
+
+      /* ─────────────────────────────
+         ⑪ Final response
+      ───────────────────────────── */
       return res.json({
         status: "ok",
         report_id,
-        final_report,
-        __debug: {
-          route: "POST /api/q19/submit",
-          version: "Q19_SUBMIT_V2026_01_15_LOCKED",
-          mode
+        final_report: result.content,
+        meta: {
+          state,
+          used_fallback: result.used_fallback
         }
       });
 
@@ -103,42 +172,7 @@ function registerQ19Routes(app) {
       console.error("[Q19 SUBMIT ERROR]", err);
       return res.status(500).json({
         error: "internal error",
-        __debug: "Q19_SUBMIT_EXCEPTION"
-      });
-    }
-  });
-
-  /**
-   * ======================================
-   * GET /api/q19/report?rid=xxx
-   * ======================================
-   */
-  router.get("/report", (req, res) => {
-    try {
-      const { rid } = req.query;
-
-      if (!rid) {
-        return res.status(400).json({
-          error: "missing report_id"
-        });
-      }
-
-      const record = getQ19ReportById(rid);
-
-      if (!record || !record.final_report) {
-        return res.status(404).json({
-          error: "report not found"
-        });
-      }
-
-      return res.json({
-        final_report: record.final_report
-      });
-
-    } catch (err) {
-      console.error("[Q19 REPORT ERROR]", err);
-      return res.status(500).json({
-        error: "internal error"
+        message: err.message
       });
     }
   });
@@ -146,6 +180,4 @@ function registerQ19Routes(app) {
   app.use("/api/q19", router);
 }
 
-module.exports = {
-  registerQ19Routes
-};
+module.exports = { registerQ19Routes };

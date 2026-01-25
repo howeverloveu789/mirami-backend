@@ -1,147 +1,137 @@
-console.log("🚨 sendToMIRAMI FILE LOADED");
-const fs = require("fs");
-const path = require("path");
-const crypto = require("crypto");
-const OpenAI = require("openai");
+// === 完全對齊你專案的 sendToMIRAMI.js 最終版 ===
 
 /**
- * MIRAMI Narrative Engine — Q19
- * GPT = amplifier, NOT replacement
- * - P prompt = core brain
- * - Guard prompt = structure & tone lock
- * - Linux-safe, absolute path
+ * MIRAMI v3.8 — Single-call MIRAMI generator
+ * - Uses OpenAI Chat Completions
+ * - Returns: { report_id, content, quality }
  */
 
-const client = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
+const fetch = require("node-fetch");
 
-/**
- * 🔒 Load base P prompt (core capability)
- */
-function loadPPrompt() {
-  const promptPath = path.resolve(
-    process.cwd(),          // /opt/render/project/src
-    "src",
-    "core",
-    "prompts",
-    "q19_P_prompt.txt"      // ⚠️ 保留原本大寫 P
-  );
+const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
+const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4.1";
 
-  if (!fs.existsSync(promptPath)) {
-    throw new Error(
-      `[MIRAMI] P prompt not found at ${promptPath}`
-    );
-  }
-
-  return fs.readFileSync(promptPath, "utf8");
-}
-
-/**
- * 🧱 MIRAMI Report Guard (DO NOT externalize)
- * This layer locks tone & structure.
- */
-function loadReportGuard() {
+function buildSystemPrompt() {
   return `
-You are generating a MIRAMI Q19 mirror report.
+You are the MIRAMI Q19 report engine.
 
-This is NOT advice, NOT coaching, NOT diagnosis.
+Your task is to generate a complete five‑section behavioral report and five corresponding red flags in a single response. You must follow the required structure exactly and maintain a strictly observational, unsentimental tone.
 
-ABSOLUTE RULES:
-- Do NOT give advice or suggestions.
-- Do NOT predict future outcomes.
-- Do NOT label personality or identity.
-- Do NOT explain internal systems, logic, or scores.
-- Do NOT mention questions, axes, rhythms, or models.
+Your output must contain:
+- SECTION_1 through SECTION_5
+- RED_FLAG_1 through RED_FLAG_5
 
-TONE:
-- Calm
-- Precise
-- Observational
-- Non-motivational
-- No teaching language
+Rules:
+1. Mirror language only. Describe what is happening, not why.
+2. No advice, no suggestions, no coping strategies, no instructions.
+3. No emotions, no reassurance, no praise, no empathy.
+4. No psychological interpretation, no personality labels, no speculation.
+5. No references to “MIRAMI”, “Q19”, “axes”, “models”, or internal mechanics.
+6. Each SECTION_x must be 4–7 sentences.
+7. Each RED_FLAG_x must be exactly one sentence.
+8. Each RED_FLAG_x must be derived only from its corresponding SECTION_x.
+9. RED_FLAG_x must not repeat or overlap with any other RED_FLAG.
+10. Maintain a cool, structured, observational tone throughout.
+11. Do not speak to the user directly.
+12. Do not include placeholders, variables, or template syntax in the output.
 
-STRUCTURE (MUST FOLLOW EXACTLY):
+Required output format:
 
-1. Your Present Pattern
-Describe current operating mode only.
-Focus on motion, pacing, and closure.
+SECTION_1:
+<paragraph>
 
-2. Key Operating Signals
-List observable behavioral signals.
-End with ONE sentence starting with:
-"Net effect:"
+RED_FLAG_1:
+<single sentence>
 
-3. Trade-Off Load
-Describe where effort or weight is concentrated.
-Frame as exchange, not problem.
+SECTION_2:
+<paragraph>
 
-4. Flow Pattern
-Describe how actions build, move, and settle.
-Do NOT name steps or internal rhythm models.
+RED_FLAG_2:
+<single sentence>
 
-5. Load State
-Summarize overall structural pressure.
-No warning, no future framing.
+SECTION_3:
+<paragraph>
 
-6. Closing Mirror Line
-ONE sentence the user can recognize and hold.
-No conclusion. No advice.
+RED_FLAG_3:
+<single sentence>
+
+SECTION_4:
+<paragraph>
+
+RED_FLAG_4:
+<single sentence>
+
+SECTION_5:
+<paragraph>
+
+RED_FLAG_5:
+<single sentence>
 `;
 }
 
-/**
- * 🔐 Fingerprint combined prompt
- */
-function hashPrompt(text) {
-  return crypto
-    .createHash("sha256")
-    .update(text)
-    .digest("hex")
-    .slice(0, 12);
+function buildUserPrompt({ state, slots }) {
+  const { mainDomain, mainLoad, redFlagLoad, userQuote, engine } = slots || {};
+
+  return `
+User state (internal context only):
+${JSON.stringify(state || {}, null, 2)}
+
+Slots:
+- Main domain: ${mainDomain || "unspecified"}
+- Main load: ${mainLoad || "unspecified"}
+- Red‑flag load: ${redFlagLoad || "unspecified"}
+- User quote: ${userQuote || "unspecified"}
+- Engine: ${engine || "A/B/C (unspecified)"}
+
+Write a full MIRAMI report that:
+- Uses the fixed five‑module structure (behavior, time, protection, adjustment, long‑term inertia).
+- Each SECTION_x is 4–7 sentences.
+- Each RED_FLAG_x is exactly one sentence.
+- Each RED_FLAG_x must be derived strictly from its corresponding SECTION_x.
+- Maintain a neutral, observational, unsentimental tone.
+- Do not speak to the user directly.
+- Do not repeat the user quote in an emotional or interpretive way.
+- Do not give advice, reassurance, or coping strategies.
+`;
 }
 
-async function sendToMIRAMI(varoState) {
-  if (!varoState) {
-    throw new Error("MIRAMI state payload missing");
-  }
-
-  // ① Load prompts
-  const pPrompt = loadPPrompt();
-  const guardPrompt = loadReportGuard();
-
-  const systemPrompt = `${pPrompt}\n\n${guardPrompt}`;
-  const promptHash = hashPrompt(systemPrompt);
-
-  // 🔴 HARD DEBUG
-  console.log("========================================");
-  console.log("[MIRAMI] sendToMIRAMI CALLED");
-  console.log("[MIRAMI] prompt hash:", promptHash);
-  console.log("[MIRAMI] P prompt + Guard loaded");
-  console.log("[MIRAMI] varoState keys:", Object.keys(varoState));
-  console.log("========================================");
-
-  // ② Call OpenAI
-  const response = await client.chat.completions.create({
-    model: "gpt-4.1",
-    temperature: 0.35, // 稍微收斂，避免發散
-    messages: [
-      { role: "system", content: systemPrompt },
-      { role: "user", content: JSON.stringify(varoState, null, 2) }
-    ]
+async function callOpenAI(systemPrompt, userPrompt) {
+  const response = await fetch(OPENAI_API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
+    },
+    body: JSON.stringify({
+      model: OPENAI_MODEL,
+      temperature: 0.55,
+      messages: [
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt }
+      ]
+    })
   });
 
-  const content = response?.choices?.[0]?.message?.content;
+  const data = await response.json();
+  const content = data?.choices?.[0]?.message?.content?.trim();
 
-  if (!content || typeof content !== "string") {
-    throw new Error("Empty response from MIRAMI");
+  if (!content) {
+    throw new Error("MIRAMI: empty response from model");
   }
 
+  return content;
+}
+
+async function sendToMIRAMI({ state, slots }) {
+  const systemPrompt = buildSystemPrompt();
+  const userPrompt = buildUserPrompt({ state, slots });
+
+  const finalReport = await callOpenAI(systemPrompt, userPrompt);
+
   return {
-    source: "mirami",
-    model: "gpt-4.1",
-    prompt_hash: promptHash,
-    content: content.trim()
+    report_id: "mirami_" + Date.now(),
+    content: finalReport,
+    quality: { score: null }
   };
 }
 

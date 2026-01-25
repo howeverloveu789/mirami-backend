@@ -11,89 +11,60 @@ function ensureDir() {
   }
 }
 
-/**
- * 🔹 工具：讀取全部 records（只給 Step 2 用，效能先不管）
- */
-function readAllRecords() {
-  if (!fs.existsSync(FILE)) return [];
-  const lines = fs.readFileSync(FILE, "utf-8").trim().split("\n");
-  return lines.map(line => {
+function getLastRunIndex(session_id) {
+  if (!fs.existsSync(FILE)) return 0;
+
+  const lines = fs.readFileSync(FILE, "utf-8")
+    .trim()
+    .split("\n")
+    .filter(Boolean);
+
+  for (let i = lines.length - 1; i >= 0; i--) {
     try {
-      return JSON.parse(line);
-    } catch {
-      return null;
-    }
-  }).filter(Boolean);
+      const r = JSON.parse(lines[i]);
+      if (r.session_id === session_id && Number.isInteger(r.run_index)) {
+        return r.run_index;
+      }
+    } catch (_) {}
+  }
+  return 0;
 }
 
-/**
- * 🆕 核心：存 Q19 分析 or 報告（同一個入口）
- *
- * 用法：
- * - submit 前半段：存 analysis
- * - MIRAMI 回來後：存 final_report + report_id
- */
-function saveQ19Analysis(input = {}) {
+function saveQ19Memory(input = {}) {
   ensureDir();
 
+  if (!["A", "B", "C"].includes(input.state)) {
+    throw new Error("INVALID_Q19_STATE");
+  }
+
+  const runIndex = Number.isInteger(input.run_index)
+    ? input.run_index
+    : (input.session_id ? getLastRunIndex(input.session_id) + 1 : null);
+
   const record = {
-    id: "q19_" + crypto.randomUUID(),
+    memory_id: crypto.randomUUID(),
     test_id: "Q19",
-    report_id: input.report_id || null,
-    session_id: input.session_id || null,
-    created_at: new Date().toISOString(),
 
-    reliability_level: input.reliability_level || null,
-    analysis: input.analysis || null,
+    session_id: input.session_id ?? null,
+    report_id: input.report_id ?? null,
 
-    // ⭐ Step 2 關鍵欄位
-    final_report: input.final_report || null
+    state: input.state,
+    answers: input.answers ?? null,
+    distribution: input.distribution ?? null,
+
+    run_index: runIndex,
+    visit_type:
+      runIndex === 1 ? "first" :
+      Number.isInteger(runIndex) ? "return" :
+      null,
+
+    analysis_snapshot: input.analysis_snapshot ?? null,
+
+    created_at: new Date().toISOString()
   };
 
   fs.appendFileSync(FILE, JSON.stringify(record) + "\n", "utf-8");
-
-  return record; // 👈 讓 submit 可以拿到 report_id
+  return record;
 }
 
-/**
- * ✅ Step 2 專用：用 report_id 取報告
- */
-function getQ19ReportById(report_id) {
-  if (!report_id) return null;
-
-  const records = readAllRecords();
-
-  // 從後面找（最新優先）
-  for (let i = records.length - 1; i >= 0; i--) {
-    const r = records[i];
-    if (r.report_id === report_id && r.final_report) {
-      return r;
-    }
-  }
-
-  return null;
-}
-
-/**
- * （保留）如果你其他地方還在用
- */
-function getLatestQ19Memory(session_id) {
-  if (!session_id) return null;
-
-  const records = readAllRecords();
-
-  for (let i = records.length - 1; i >= 0; i--) {
-    const r = records[i];
-    if (r.session_id === session_id) {
-      return r;
-    }
-  }
-
-  return null;
-}
-
-module.exports = {
-  saveQ19Analysis,
-  getQ19ReportById,
-  getLatestQ19Memory
-};
+module.exports = { saveQ19Memory };
