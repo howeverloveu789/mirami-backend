@@ -26,7 +26,7 @@ const { writeBehaviorEntry } = require("../core/memory/behaviorVault");
 const { writeQ19Trace } = require("../core/memory/q19TraceStore");
 
 // A% calculator
-const { buildDistribution } = require("../core/Q19/distributionBuilder");
+const { buildDistribution } = require("../core/q19/distributionBuilder");
 
 /**
  * Validate Q19 payload
