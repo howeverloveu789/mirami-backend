@@ -17,8 +17,7 @@ const path = require("path");
 const { v4: uuidv4 } = require("uuid");
 
 // JSONL file path (one entry per line)
-const VAULT_PATH = path.join(__dirname, "../../data/behavior_vault.jsonl");
-
+const VAULT_PATH = path.join(__dirname, "../../../data/behavior_vault.jsonl");
 // Ensure directory exists before writing
 function ensureDir() {
   const dir = path.dirname(VAULT_PATH);

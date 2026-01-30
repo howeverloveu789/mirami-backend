@@ -10,6 +10,8 @@
  * - state-aware pass/fail threshold
  */
 
+const { validateReportAgainstSpec } = require("../report/validateReportAgainstSpec"); // ★ 修正這一行
+
 function evaluateQuality(text, state) {
   const issues = [];
 

@@ -1,15 +1,14 @@
-// === 完全對齊你專案的 sendToMIRAMI.js 最終版 ===
-
 /**
- * MIRAMI v3.8 — Single-call MIRAMI generator
- * - Uses OpenAI Chat Completions
+ * MIRAMI v4.1 — Single-call MIRAMI generator
+ * - Uses OpenAI Chat Completions (gpt-4.1)
  * - Returns: { report_id, content, quality }
  */
 
 const fetch = require("node-fetch");
+const Engine = require("../engine");
 
 const OPENAI_API_URL = "https://api.openai.com/v1/chat/completions";
-const OPENAI_MODEL = process.env.OPENAI_MODEL || "gpt-4.1";
+const OPENAI_MODEL = "gpt-4.1"; // 🔒 固定使用 gpt-4.1，不依賴環境變數
 
 function buildSystemPrompt() {
   return `

@@ -1,13 +1,17 @@
+/engine
+  runEngine.js            # Q19 deterministic core (v4.1)
+  analyzeQ19ToJSON.js     # structural analysis
+  evaluateQuality.js      # quality engine (state-aware)
+  autoSafeSendToMIRAMI.js # safe wrapper
 
-# MIRAMI
+/memory
+  q19_memory.jsonl        # MEMORY v2
+  q19_traces.jsonl        # TRACES v2
+  behavior_vault.jsonl    # BLV1
 
-MIRAMI reflects how a stretch of time is being lived,
-even as the way people describe that time changes.
+/report
+  sendToMIRAMI.js
+  MIRAMI_ROUTING_MAP.js   # 12-module routing
 
-This repository implements MIRAMI.
-
-Core behavior, boundaries, and invariants are defined in:
-docs/MIRAMI_CORE_BOUNDARIES.md
-
-If anything conflicts with that document,
-that document wins.
+/slot
+  slotEngine.js           # (v4.1 新增) 尾段 slot 生成器

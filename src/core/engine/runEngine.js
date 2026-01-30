@@ -1,14 +1,12 @@
-// === 完全對齊你專案的 runQ19.js 最終版 ===
-
 /**
- * Q19 deterministic engine (v3.8)
+ * Q19 deterministic engine (v4.1)
  * - Pure logic
  * - No language
  * - No interpretation
  * - No side effects
  */
 
-function runQ19(payload = {}) {
+function runEngine(payload = {}) {
   const answers = payload.answers || {};
 
   // Count A/B/C
@@ -33,4 +31,4 @@ function runQ19(payload = {}) {
   };
 }
 
-module.exports = { runQ19 };
+module.exports = { runEngine };

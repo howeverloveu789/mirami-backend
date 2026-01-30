@@ -1,17 +1,42 @@
-// === 完全對齊你專案的 autoSafeSendToMIRAMI.js 最終版 ===
-
 /**
- * autoSafeSendToMIRAMI (v3.8)
- * - Single-call MIRAMI
- * - Automatic fallback
- * - No language logic here (MIRAMI handles it)
+ * MIRAMI v4.1 — autoSafeSendToMIRAMI
+ * ----------------------------------
+ * - Wraps sendToMIRAMI with fallback
+ * - Passes moduleFile / layer / angle metadata
+ * - No language logic here
+ * - Single-call safety wrapper
  */
 
 const { sendToMIRAMI } = require("./sendToMIRAMI");
 
 async function autoSafeSendToMIRAMI(input = {}) {
   try {
-    const result = await sendToMIRAMI(input);
+    const {
+      state,
+      slots,
+      moduleFile = null,   // prompt variant file
+      layer = null,        // pricing tier
+      angle = null         // A / B / C
+    } = input;
+
+    // 🔒 HARD GUARD — state required
+    if (!state) {
+      throw new Error("autoSafeSendToMIRAMI: missing state");
+    }
+
+    // 🔒 HARD GUARD — slots required
+    if (!slots || typeof slots !== "object") {
+      throw new Error("autoSafeSendToMIRAMI: missing slots");
+    }
+
+    // ⭐ Pass metadata directly into MIRAMI v4.1
+    const result = await sendToMIRAMI({
+      state,
+      slots,
+      moduleFile,
+      layer,
+      angle
+    });
 
     return {
       content: result?.content ?? null,
@@ -22,9 +47,11 @@ async function autoSafeSendToMIRAMI(input = {}) {
     };
 
   } catch (err) {
-    // fallback
+    console.error("❌ autoSafeSendToMIRAMI fallback triggered:", err);
+
+    // ⭐ Fallback must NEVER break pipeline
     return {
-      content: "Your report is ready.",
+      content: "Your MIRAMI report is ready.",
       report_id: "fallback_" + Date.now(),
       used_fallback: true,
       attempts: 2,

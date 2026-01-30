@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>MIRAMI v4.1 — Q19 測試介面</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto;
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+      line-height: 1.6;
+    }
+    textarea {
+      width: 100%;
+      height: 180px;
+      padding: 10px;
+      font-size: 14px;
+      font-family: monospace;
+    }
+    select, button {
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    #miramiOutput {
+      margin-top: 20px;
+      white-space: pre-wrap;
+      padding: 15px;
+      border: 1px solid #ddd;
+      background: #fafafa;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h2>MIRAMI v4.1 — Q19 測試介面</h2>
+
+  <p>請輸入 Q19 回答 JSON：</p>
+  <textarea id="answersInput" placeholder='例如：{"q1":"A","q2":"B",...}'></textarea>
+
+  <p>選擇 MIRAMI 模組：</p>
+  <select id="moduleSelect">
+    <option value="q19_free_a">FREE A</option>
+    <option value="q19_free_b">FREE B</option>
+    <option value="q19_free_c">FREE C</option>
+
+    <option value="q19_19a">$19 A</option>
+    <option value="q19_19b">$19 B</option>
+    <option value="q19_19c">$19 C</option>
+
+    <option value="q19_49a">$49 A</option>
+    <option value="q19_49b">$49 B</option>
+    <option value="q19_49c">$49 C</option>
+
+    <option value="q19_79a">$79 A</option>
+    <option value="q19_79b">$79 B</option>
+    <option value="q19_79c">$79 C</option>
+  </select>
+
+  <br />
+  <button onclick="sendToMIRAMI()">送出 MIRAMI</button>
+
+  <div id="miramiOutput"></div>
+
+  <script>
+    async function sendToMIRAMI() {
+      const answers = JSON.parse(document.getElementById("answersInput").value);
+      const moduleKey = document.getElementById("moduleSelect").value;
+
+      const payload = {
+        answers,
+        module: moduleKey
+      };
+
+      document.getElementById("miramiOutput").innerText = "⏳ 生成中...";
+
+      try {
+        const res = await fetch("/api/q19/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+        document.getElementById("miramiOutput").innerText =
+          data.final_report || JSON.stringify(data, null, 2);
+
+      } catch (err) {
+        document.getElementById("miramiOutput").innerText =
+          "❌ 發生錯誤：\n" + err;
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1,10 +1,10 @@
 // === 完全對齊你專案的 analyzeQ19ToJSON.js 最終版 ===
 
 const { buildAxisScores } = require("./q19AxisBuilder");
-const { evaluateReliability } = require("./q19ReliabilityEngine");
-const { analyzeSignals } = require("./q19SignalAnalyzer");
-const { analyzeTrend } = require("./q19TrendEngine");
-const { analyzeCluster } = require("./q19ClusterEngine");
+const { evaluateReliability } = require("../engine/q19ReliabilityEngine");
+const { analyzeSignals } = require("../engine/q19SignalAnalyzer");
+const { analyzeTrend } = require("../engine/q19TrendEngine");
+const { analyzeCluster } = require("../engine/q19ClusterEngine");
 
 function analyzeQ19ToJSON(answers = {}, session_id = null) {
   // 1. State detection

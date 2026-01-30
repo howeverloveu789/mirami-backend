@@ -1,3 +1,9 @@
+/**
+ * q19ClusterEngine (optional)
+ * - Not used in v4.1
+ * - Reserved for v4.2+ (9-axis + trend analysis)
+ */
+
 // === 完全對齊你專案的 q19TrendEngine.js 最終版 ===
 
 /**
