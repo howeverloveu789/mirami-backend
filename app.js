@@ -38,8 +38,51 @@ app.use(express.json());
 // Routes
 // ─────────────────────────────
 registerQ19Routes(app);
+// ─────────────────────────────
+// MIRAMI AI Report API
+// ─────────────────────────────
+const OpenAI = require("openai");
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
+
+app.post("/api/report", async (req, res) => {
+  try {
+    const answers = req.body.answers; // array of 19 answers (A/B/C)
+
+    if (!answers || !Array.isArray(answers) || answers.length !== 19) {
+      return res.status(400).json({ error: "invalid_answers" });
+    }
+
+    // Build prompt
+    const prompt = `
+${process.env.MIRAMI_REPORT_PROMPT}
+
+User answers:
+${answers.join(", ")}
+    `;
+
+    // Call OpenAI
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4.1",
+      messages: [
+        { role: "system", content: process.env.MIRAMI_REPORT_PROMPT },
+        { role: "user", content: `User answers: ${answers.join(", ")}` }
+      ]
+    });
+
+    const report = completion.choices[0].message.content;
+
+    res.json({ report });
+  } catch (err) {
+    console.error("🔥 MIRAMI REPORT ERROR:", err);
+    res.status(500).json({ error: "report_generation_failed" });
+  }
+});
+
 // Stripe Checkout (ME19)
-app.post("/api/stripe/me19", async (req, res) => {
+app.post("/api/stripe/me49", async (req, res) => {
   try {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
