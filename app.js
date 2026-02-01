@@ -80,11 +80,12 @@ app.post("/api/report", async (req, res) => {
 // ─────────────────────────────
 // Stripe · MIRAMI $49 Checkout (TEST)
 // ─────────────────────────────
+// Stripe · MIRAMI $49 Checkout (TEST)
 app.post("/api/stripe/me49", async (req, res) => {
   console.log("🟢 HIT /api/stripe/me49");
 
   try {
-    const PRICE_ID = "price_1Sw8SvLvNT4mo4zfVfYi8926"; // 👈 你目前的 test price
+    const PRICE_ID = "price_1SwA8OLvNT4mo4zfJuK2UnnM"; // ✅ 正確的 test price
     console.log("💰 USING PRICE:", PRICE_ID);
 
     const session = await stripe.checkout.sessions.create({
@@ -107,6 +108,7 @@ app.post("/api/stripe/me49", async (req, res) => {
     res.status(500).json({ error: "stripe_session_failed" });
   }
 });
+
 
 // ─────────────────────────────
 // Health Check
