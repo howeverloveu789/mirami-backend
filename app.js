@@ -78,7 +78,7 @@ app.post("/api/stripe/me49", async (req, res) => {
       payment_method_types: ["card"],
       line_items: [
         {
-          price: "price_1SvvY1LvNT4mo4zfxshA6hu9",
+          price: "price_1Sw8SvLvNT4mo4zfvTYj8926",
           quantity: 1
         }
       ],
