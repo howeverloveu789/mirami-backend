@@ -1,6 +1,8 @@
 console.log("🚨 APP VERSION CHECK:", __filename);
 
 const express = require("express");
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
+
 const cors = require("cors");
 require("dotenv").config();
 
@@ -36,6 +38,32 @@ app.use(express.json());
 // Routes
 // ─────────────────────────────
 registerQ19Routes(app);
+// Stripe Checkout (ME19)
+app.post("/api/stripe/me19", async (req, res) => {
+  try {
+    const session = await stripe.checkout.sessions.create({
+      mode: "payment",
+      payment_method_types: ["card"],
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            product_data: { name: "ME — Your visible pattern" },
+            unit_amount: 1900,
+          },
+          quantity: 1,
+        },
+      ],
+      success_url: "https://www.mirami.tech/me/success?session_id={CHECKOUT_SESSION_ID}",
+      cancel_url: "https://www.mirami.tech/me/cancel",
+    });
+
+    res.json({ url: session.url });
+  } catch (err) {
+    console.error("Stripe error:", err);
+    res.status(500).json({ error: "stripe_error" });
+  }
+});
 
 // ─────────────────────────────
 // Health check (system-only)
