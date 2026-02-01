@@ -17,10 +17,19 @@ const app = express();
 // Config
 // ─────────────────────────────
 const PORT = process.env.PORT || 10000;
+
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY
 });
+
+// 🔍 Stripe key mode check（非常重要）
+console.log(
+  "🔑 STRIPE KEY MODE:",
+  process.env.STRIPE_SECRET_KEY?.startsWith("sk_test")
+    ? "TEST"
+    : "LIVE"
+);
 
 // ─────────────────────────────
 // Middlewares
@@ -48,7 +57,7 @@ app.post("/api/report", async (req, res) => {
   try {
     const answers = req.body.answers;
 
-    if (!answers || !Array.isArray(answers) || answers.length !== 19) {
+    if (!answers || !Array.isArray(answers)) {
       return res.status(400).json({ error: "invalid_answers" });
     }
 
@@ -69,16 +78,20 @@ app.post("/api/report", async (req, res) => {
 });
 
 // ─────────────────────────────
-// Stripe · MIRAMI $49 Checkout
+// Stripe · MIRAMI $49 Checkout (TEST)
 // ─────────────────────────────
 app.post("/api/stripe/me49", async (req, res) => {
+  console.log("🟢 HIT /api/stripe/me49");
+
   try {
+    const PRICE_ID = "price_1Sw8SvLvNT4mo4zfVfYi8926"; // 👈 你目前的 test price
+    console.log("💰 USING PRICE:", PRICE_ID);
+
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
-      payment_method_collection: "always",
       line_items: [
         {
-          price: "price_1Sw8SvLvNT4mo4zfVfYi8926",
+          price: PRICE_ID,
           quantity: 1
         }
       ],
@@ -86,9 +99,11 @@ app.post("/api/stripe/me49", async (req, res) => {
       cancel_url: "https://www.mirami.tech/me/cancel.html"
     });
 
+    console.log("🟢 STRIPE SESSION CREATED:", session.id);
+
     res.json({ url: session.url });
   } catch (err) {
-    console.error("🔥 STRIPE ERROR:", err);
+    console.error("🔴 STRIPE ERROR FULL:", err);
     res.status(500).json({ error: "stripe_session_failed" });
   }
 });
