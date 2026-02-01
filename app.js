@@ -1,29 +1,30 @@
 console.log("🚨 APP VERSION CHECK:", __filename);
 
-const express = require("express");
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
-
-const cors = require("cors");
 require("dotenv").config();
 
-const { registerQ19Routes } = require("./src/api/q19Routes");
+const express = require("express");
+const cors = require("cors");
+const Stripe = require("stripe");
+const OpenAI = require("openai");
 
-const app = express();
+const { registerQ19Routes } = require("./src/api/q19Routes");
 const { registerDashboardRoutes } = require("./src/api/q19Dashboard");
 const { registerAdminRoutes } = require("./src/api/q19Admin");
 
-registerDashboardRoutes(app);
-registerAdminRoutes(app);
-// 🔒 MIRAMI Port Strategy
-// - Use env PORT when provided (deployment)
-// - Fallback to 10000 for local/dev
+const app = express();
+
+// ─────────────────────────────
+// Config
+// ─────────────────────────────
 const PORT = process.env.PORT || 10000;
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY
+});
 
 // ─────────────────────────────
 // Middlewares
 // ─────────────────────────────
-
-// CORS (open by default, can be tightened later)
 app.use(
   cors({
     origin: true,
@@ -31,39 +32,26 @@ app.use(
   })
 );
 
-// Body parser
 app.use(express.json());
 
 // ─────────────────────────────
-// Routes
+// Internal Routes
 // ─────────────────────────────
+registerDashboardRoutes(app);
+registerAdminRoutes(app);
 registerQ19Routes(app);
+
 // ─────────────────────────────
 // MIRAMI AI Report API
 // ─────────────────────────────
-const OpenAI = require("openai");
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY
-});
-
 app.post("/api/report", async (req, res) => {
   try {
-    const answers = req.body.answers; // array of 19 answers (A/B/C)
+    const answers = req.body.answers;
 
     if (!answers || !Array.isArray(answers) || answers.length !== 19) {
       return res.status(400).json({ error: "invalid_answers" });
     }
 
-    // Build prompt
-    const prompt = `
-${process.env.MIRAMI_REPORT_PROMPT}
-
-User answers:
-${answers.join(", ")}
-    `;
-
-    // Call OpenAI
     const completion = await openai.chat.completions.create({
       model: "gpt-4.1",
       messages: [
@@ -73,7 +61,6 @@ ${answers.join(", ")}
     });
 
     const report = completion.choices[0].message.content;
-
     res.json({ report });
   } catch (err) {
     console.error("🔥 MIRAMI REPORT ERROR:", err);
@@ -81,7 +68,9 @@ ${answers.join(", ")}
   }
 });
 
-// Stripe Checkout (ME49)
+// ─────────────────────────────
+// Stripe · MIRAMI $49 Checkout
+// ─────────────────────────────
 app.post("/api/stripe/me49", async (req, res) => {
   try {
     const session = await stripe.checkout.sessions.create({
@@ -89,23 +78,23 @@ app.post("/api/stripe/me49", async (req, res) => {
       payment_method_types: ["card"],
       line_items: [
         {
-          price: process.env.STRIPE_PRICE_ME49, // ← 用你的 $49 price ID
-          quantity: 1,
-        },
+          price: "price_1SvvY1LvNT4mo4zfxshA6hu9",
+          quantity: 1
+        }
       ],
-      success_url: "https://www.mirami.tech/me/success?session_id={CHECKOUT_SESSION_ID}",
-      cancel_url: "https://www.mirami.tech/me/cancel",
-    });
+      success_url: "http://www.mirami.tech/me/success.html",
+      cancel_url: "http://www.mirami.tech/me/cancel.html",
+});
 
     res.json({ url: session.url });
   } catch (err) {
-    console.error("Stripe error:", err);
-    res.status(500).json({ error: "stripe_error" });
+    console.error("🔥 STRIPE ME49 ERROR:", err);
+    res.status(500).json({ error: "stripe_session_failed" });
   }
 });
 
 // ─────────────────────────────
-// Health check (system-only)
+// Health Check
 // ─────────────────────────────
 app.get("/health", (req, res) => {
   res.json({
@@ -117,11 +106,10 @@ app.get("/health", (req, res) => {
 });
 
 // ─────────────────────────────
-// Global error guard (last line of defense)
+// Global Error Guard
 // ─────────────────────────────
 app.use((err, req, res, next) => {
   console.error("🔥 UNCAUGHT APP ERROR", err);
-
   res.status(500).json({
     error: "internal error",
     message: "The mirror is temporarily unavailable."
@@ -129,7 +117,7 @@ app.use((err, req, res, next) => {
 });
 
 // ─────────────────────────────
-// Start server
+// Start Server
 // ─────────────────────────────
 app.listen(PORT, () => {
   console.log("🚀 MIRAMI backend listening on port", PORT);
