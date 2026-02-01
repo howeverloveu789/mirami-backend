@@ -16,6 +16,7 @@
     "express": "^5.2.1",
     "node-fetch": "^2.7.0",
     "openai": "^6.16.0",
+    "stripe": "^20.3.0",
     "uuid": "^13.0.0"
   },
   "devDependencies": {
