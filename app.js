@@ -81,7 +81,7 @@ ${answers.join(", ")}
   }
 });
 
-// Stripe Checkout (ME19)
+// Stripe Checkout (ME49)
 app.post("/api/stripe/me49", async (req, res) => {
   try {
     const session = await stripe.checkout.sessions.create({
@@ -89,11 +89,7 @@ app.post("/api/stripe/me49", async (req, res) => {
       payment_method_types: ["card"],
       line_items: [
         {
-          price_data: {
-            currency: "usd",
-            product_data: { name: "ME — Your visible pattern" },
-            unit_amount: 1900,
-          },
+          price: process.env.STRIPE_PRICE_ME49, // ← 用你的 $49 price ID
           quantity: 1,
         },
       ],
