@@ -75,20 +75,20 @@ app.post("/api/stripe/me49", async (req, res) => {
   try {
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
-      payment_method_types: ["card"],
+      payment_method_collection: "always",
       line_items: [
         {
           price: "price_1Sw8SvLvNT4mo4zfVfYi8926",
           quantity: 1
         }
       ],
-      success_url: "http://www.mirami.tech/me/success.html",
-      cancel_url: "http://www.mirami.tech/me/cancel.html",
-});
+      success_url: "https://www.mirami.tech/me/success.html",
+      cancel_url: "https://www.mirami.tech/me/cancel.html"
+    });
 
     res.json({ url: session.url });
   } catch (err) {
-    console.error("🔥 STRIPE ME49 ERROR:", err);
+    console.error("🔥 STRIPE ERROR:", err);
     res.status(500).json({ error: "stripe_session_failed" });
   }
 });
