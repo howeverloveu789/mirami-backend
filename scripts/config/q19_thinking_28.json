@@ -36,235 +36,235 @@
   "questions": [
     {
       "id": "q01",
-      "text": "Before making an important decision, you usually:",
+      "text": "When a decision requires commitment, your first movement is:",
       "options": [
-        "Commit to one clear direction and move",
-        "Hold several possible directions at once",
-        "Wait and keep the decision open for now"
+        "Choose one direction and act",
+        "Hold multiple possibilities at once",
+        "Keep the decision open until signals clarify"
       ]
     },
     {
       "id": "q02",
-      "text": "When thinking about the future of a project:",
+      "text": "When projecting the future of a project, your system tends to:",
       "options": [
-        "Focus on the most likely path",
-        "Mentally explore a few different outcomes",
-        "Avoid shaping the future until it becomes clearer"
+        "Select the most likely path",
+        "Track several potential outcomes",
+        "Avoid defining the future too early"
       ]
     },
     {
       "id": "q03",
-      "text": "If someone asks for your long-term plan:",
+      "text": "When asked about long‑range direction, your system usually:",
       "options": [
-        "Describe a clear trajectory",
-        "Describe a range of possibilities",
-        "Say it is still forming"
+        "Outputs a clear trajectory",
+        "Describes a range of possibilities",
+        "Marks the future as still forming"
       ]
     },
 
     {
       "id": "q04",
-      "text": "When starting something unfamiliar:",
+      "text": "When entering unfamiliar territory, your system:",
       "options": [
-        "Begin and adjust along the way",
-        "Prepare and sense the timing first",
-        "Wait until a clearer signal appears"
+        "Initiates movement and adjusts in motion",
+        "Waits to sense timing before acting",
+        "Holds until a clearer signal appears"
       ]
     },
     {
       "id": "q05",
-      "text": "A task matters but instructions are unclear:",
+      "text": "When instructions are incomplete, your system:",
       "options": [
-        "Start working with what is available",
-        "Clarify expectations before moving",
-        "Delay engagement until the picture sharpens"
+        "Moves with available information",
+        "Seeks clarity before initiating",
+        "Delays until the frame sharpens"
       ]
     },
     {
       "id": "q06",
-      "text": "A new responsibility appears suddenly:",
+      "text": "When a new responsibility appears suddenly, your system:",
       "options": [
-        "Step in and take it on",
-        "Pause to assess scope and timing",
-        "Create distance before responding"
+        "Steps in and absorbs it",
+        "Pauses to assess scope",
+        "Creates distance before responding"
       ]
     },
 
     {
       "id": "q07",
-      "text": "Your working pace is usually guided by:",
+      "text": "Your operational pace is primarily driven by:",
       "options": [
-        "Your own internal rhythm",
-        "A balance of internal and external cues",
-        "External demands and conditions"
+        "Internal rhythm",
+        "A mix of internal and external cues",
+        "External demands"
       ]
     },
     {
       "id": "q08",
-      "text": "When others push for speed:",
+      "text": "When external pressure accelerates the environment, your system:",
       "options": [
-        "Maintain your own pace",
-        "Adjust partially",
-        "Let their pace set the rhythm"
+        "Maintains its own pace",
+        "Partially adapts",
+        "Syncs to the external pace"
       ]
     },
     {
       "id": "q09",
-      "text": "If no deadline exists:",
+      "text": "When no deadline exists, your system:",
       "options": [
-        "Continue moving steadily",
-        "Move in waves",
-        "Slow down until a reason appears"
+        "Moves steadily",
+        "Moves in waves",
+        "Slows until a reason appears"
       ]
     },
 
     {
       "id": "q10",
-      "text": "When outcomes are uncertain:",
+      "text": "When outcomes are unclear, your system:",
       "options": [
-        "Stay engaged and explore",
-        "Reduce speed to reassess",
-        "Step back from involvement"
+        "Stays engaged and explores",
+        "Reduces speed to reassess",
+        "Steps back from involvement"
       ]
     },
     {
       "id": "q11",
-      "text": "When feedback is ambiguous:",
+      "text": "When feedback is ambiguous, your system:",
       "options": [
-        "Interpret it and continue",
-        "Seek clarification",
-        "Hold position without acting"
+        "Interprets and continues",
+        "Seeks clarification",
+        "Holds position"
       ]
     },
     {
       "id": "q12",
-      "text": "Working without validation feels:",
+      "text": "When no validation exists, your internal state becomes:",
       "options": [
-        "Acceptable",
-        "Unsettling but manageable",
-        "Draining over time"
+        "Stable enough to continue",
+        "Unsettled but functional",
+        "Drained over time"
       ]
     },
 
     {
       "id": "q13",
-      "text": "With an open-ended goal:",
+      "text": "With an open‑ended goal, your system:",
       "options": [
-        "Create your own structure",
-        "Adapt structure as needed",
-        "Prefer guidance before structuring"
+        "Builds structure",
+        "Adjusts structure as needed",
+        "Waits for guidance"
       ]
     },
     {
       "id": "q14",
-      "text": "When systems are missing:",
+      "text": "When no system exists, your system:",
       "options": [
-        "Build them",
-        "Improvise lightly",
-        "Pause until systems exist"
+        "Constructs one",
+        "Improvises lightly",
+        "Pauses until a system appears"
       ]
     },
     {
       "id": "q15",
-      "text": "Given freedom to organize work:",
+      "text": "When given full autonomy, your system:",
       "options": [
-        "Design structure early",
-        "Let structure emerge",
-        "Rely on external frameworks"
+        "Designs structure early",
+        "Lets structure emerge",
+        "Uses external frameworks"
       ]
     },
 
     {
       "id": "q16",
-      "text": "When receiving criticism:",
+      "text": "When receiving criticism, your system:",
       "options": [
-        "Hold it internally and reflect",
-        "Translate it into adjustments",
-        "Create distance from it"
+        "Holds and processes internally",
+        "Converts it into adjustments",
+        "Creates distance"
       ]
     },
     {
       "id": "q17",
-      "text": "If feedback conflicts with your view:",
+      "text": "When feedback conflicts with your view, your system:",
       "options": [
-        "Examine it carefully",
-        "Select parts that resonate",
-        "Set it aside"
+        "Examines it",
+        "Selects useful parts",
+        "Sets it aside"
       ]
     },
     {
       "id": "q18",
-      "text": "After negative feedback:",
+      "text": "After negative feedback, your system:",
       "options": [
-        "Quietly recalibrate",
-        "Ask clarifying questions",
-        "Reduce engagement"
+        "Recalibrates quietly",
+        "Seeks clarification",
+        "Reduces engagement"
       ]
     },
 
     {
       "id": "q19",
-      "text": "At the beginning of a project:",
+      "text": "At the start of a project, your system:",
       "options": [
-        "Invest energy quickly",
-        "Invest at a measured pace",
-        "Stay reserved until momentum forms"
+        "Invests energy quickly",
+        "Moves at a measured pace",
+        "Holds until momentum forms"
       ]
     },
     {
       "id": "q20",
-      "text": "Midway through long work:",
+      "text": "Midway through long work, your system:",
       "options": [
-        "Energy tapers",
-        "Energy stays consistent",
-        "Energy fluctuates in bursts"
+        "Tapers",
+        "Stays consistent",
+        "Moves in bursts"
       ]
     },
     {
       "id": "q21",
-      "text": "Near completion:",
+      "text": "Near completion, your system:",
       "options": [
-        "Momentum softens",
-        "Push to complete",
-        "Pause to reassess"
+        "Softens momentum",
+        "Pushes to finish",
+        "Pauses to reassess"
       ]
     },
 
     {
       "id": "q22",
-      "text": "Under pressure:",
+      "text": "Under pressure, your system:",
       "options": [
-        "Absorb and stabilize",
-        "Reframe the situation",
-        "Limit exposure to pressure"
+        "Absorbs and stabilizes",
+        "Reframes",
+        "Limits exposure"
       ]
     },
     {
       "id": "q23",
-      "text": "When overloaded:",
+      "text": "When overloaded, your system:",
       "options": [
-        "Slow down internally",
-        "Renegotiate scope",
-        "Narrow focus sharply"
+        "Slows internally",
+        "Renegotiates scope",
+        "Narrows sharply"
       ]
     },
     {
       "id": "q24",
-      "text": "Prolonged stress leads you to:",
+      "text": "Prolonged stress leads your system to:",
       "options": [
         "Withdraw quietly",
         "Adjust strategy",
-        "Release and reset"
+        "Reset"
       ]
     },
 
     {
       "id": "q25",
-      "text": "Finishing tasks:",
+      "text": "When finishing tasks, your system:",
       "options": [
-        "Let them close naturally",
-        "Take time before closure",
-        "End them deliberately to move on"
+        "Lets them close naturally",
+        "Takes time before closure",
+        "Ends them deliberately"
       ]
     },
     {
@@ -272,26 +272,26 @@
       "text": "Loose ends usually:",
       "options": [
         "Resolve themselves",
-        "Remain in the background",
-        "Get intentionally cut"
+        "Stay in the background",
+        "Get cut intentionally"
       ]
     },
     {
       "id": "q27",
-      "text": "When something ends:",
+      "text": "When something ends, your system:",
       "options": [
-        "Ease out gradually",
-        "Reflect briefly, then move on",
-        "Detach cleanly"
+        "Eases out",
+        "Reflects briefly then moves",
+        "Detaches cleanly"
       ]
     },
     {
       "id": "q28",
-      "text": "When something important is unfinished:",
+      "text": "When something important is unfinished, your system:",
       "options": [
-        "Close it to regain momentum",
-        "Keep it in view while continuing",
-        "Leave it open until conditions change"
+        "Closes it to regain momentum",
+        "Keeps it in view",
+        "Leaves it open until conditions shift"
       ]
     }
   ]
