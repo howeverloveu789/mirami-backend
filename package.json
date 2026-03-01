@@ -1,28 +1,16 @@
 {
-  "name": "mirami-backend",
+  "name": "mirami-orbit-lv6",
   "version": "1.0.0",
-  "description": "MIRAMI backend API",
-  "main": "app.js",
-  "type": "commonjs",
+  "type": "module",
+  "main": "server.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "node app.js"
+    "start": "node server.js"
   },
   "dependencies": {
-    "ajv": "^8.17.1",
-    "body-parser": "^2.2.1",
     "cors": "^2.8.5",
-    "dotenv": "^16.4.5",
-    "express": "^5.2.1",
-    "node-fetch": "^2.7.0",
-    "openai": "^6.16.0",
-    "stripe": "^20.3.0",
-    "uuid": "^13.0.0"
-  },
-  "devDependencies": {
-    "@types/express": "^5.0.6"
-  },
-  "engines": {
-    "node": ">=18.0.0"
+    "dotenv": "^17.3.1",
+    "express": "^4.19.2",
+    "node-fetch": "^3.3.2",
+    "openai": "^6.25.0"
   }
 }

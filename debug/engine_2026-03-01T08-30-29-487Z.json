@@ -1,0 +1,125 @@
+{
+  "vector_sum": {
+    "L1": 0.6,
+    "L2": -1,
+    "L3": -0.3,
+    "L4": 2,
+    "L5": 0.3,
+    "L6": 0.44999999999999996,
+    "L7": 0.15000000000000002
+  },
+  "tension_threshold": {
+    "L1": 0.3,
+    "L2": 0,
+    "L3": 0.6,
+    "L4": 0.2,
+    "L5": 0,
+    "L6": 0,
+    "L7": 0
+  },
+  "shift_direction": {
+    "L1": 0.1,
+    "L2": 0.3,
+    "L3": 0.2,
+    "L4": 0.6,
+    "L5": 0,
+    "L6": 0,
+    "L7": 0
+  },
+  "shift_velocity": {
+    "L1": 0,
+    "L2": 0,
+    "L3": 0.5,
+    "L4": 0.4,
+    "L5": 0,
+    "L6": 0.1,
+    "L7": 0
+  },
+  "stability_window": {
+    "L1": 0,
+    "L2": 0,
+    "L3": 0.3,
+    "L4": 0,
+    "L5": 0,
+    "L6": 0.7,
+    "L7": 0
+  },
+  "compensation_loop": {
+    "L1": 0,
+    "L2": 0.3,
+    "L3": 0.2,
+    "L4": 0,
+    "L5": 0.7,
+    "L6": 0,
+    "L7": 0
+  },
+  "break_pattern": {
+    "L1": -0.2,
+    "L2": 0,
+    "L3": 0.7,
+    "L4": 0.6,
+    "L5": 0,
+    "L6": -0.2,
+    "L7": -0.2
+  },
+  "temporal_resistance": {
+    "L1": -0.6,
+    "L2": 0,
+    "L3": 0.2,
+    "L4": 0.3,
+    "L5": 0,
+    "L6": 0,
+    "L7": -0.4
+  },
+  "explore_load": {
+    "L1": 0,
+    "L2": -1.1,
+    "L3": -0.15000000000000002,
+    "L4": 1.2,
+    "L5": 0.3,
+    "L6": 0.15,
+    "L7": 0.05
+  },
+  "mvp_load": {
+    "L1": 0.15000000000000002,
+    "L2": 0.2,
+    "L3": 0.15000000000000002,
+    "L4": -0.10000000000000002,
+    "L5": 0,
+    "L6": 0,
+    "L7": 0.15000000000000002
+  },
+  "pressure_load": {
+    "L1": 0.44999999999999996,
+    "L2": 0,
+    "L3": 0.14999999999999997,
+    "L4": 0.3,
+    "L5": 0.3,
+    "L6": 0.44999999999999996,
+    "L7": 0
+  },
+  "scale_load": {
+    "L1": 0.6,
+    "L2": 0.2,
+    "L3": 0.3,
+    "L4": 0.19999999999999998,
+    "L5": 0.3,
+    "L6": 0.44999999999999996,
+    "L7": 0.15000000000000002
+  },
+  "transition_condition": "TRANSITION_ACTIVE",
+  "failure_mechanism": "Shift_Break",
+  "compensation_state": "COMP_NEUTRAL",
+  "dark_pairs": {
+    "Tension_Break": "DARK_TENSION_BREAK",
+    "Break_Recovery": "DARK_BREAK_RECOVERY",
+    "Shift_Tension": "DARK_SHIFT_TENSION",
+    "Shift_TemporalFriction": "DARK_SHIFT_TEMPORAL",
+    "Compensation_Break": "DARK_COMP_BREAK",
+    "Compensation_Tension": "DARK_COMP_TENSION",
+    "TemporalFriction_Tension": "DARK_TEMPORAL_TENSION",
+    "TemporalFriction_Recovery": "DARK_TEMPORAL_RECOVERY",
+    "Variation_Break": "DARK_VARIATION_BREAK",
+    "Variation_Tension": "DARK_VARIATION_TENSION"
+  }
+}

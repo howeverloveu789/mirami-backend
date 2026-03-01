@@ -1,0 +1,59 @@
+SYSTEM DEFINITION
+Translate the core OS fields into engineering semantics. Do not output raw values such as A/B/C. Convert each field into a system‑state description:
+- tension_threshold → offset load tendency (low / mid / high)
+- shift_direction → directional bias (left / right / neutral)
+- shift_velocity → response speed (slow / medium / fast)
+- stability_window → stability range (narrow / moderate / wide)
+- compensation_loop → compensation structure (active / delayed / stalled)
+
+All statements must be static engineering descriptions. No narrative verbs. No psychological terms.
+
+STAGE BEHAVIOR MODEL
+Translate stage_fit into stage‑state mappings using engineering nouns only:
+- Explore segment: high load / mid load / low load / no output
+- MVP segment: high load / mid load / low load / no output
+- Pressure segment: high load / mid load / low load / no output
+- Scale segment: high load / mid load / low load / no output
+
+Translate cross_state into transition‑condition mappings:
+- transition condition: linked / blocked / open / closed
+
+No behavior descriptions. No trend language.
+
+PRIMARY FAILURE MODE
+Translate failure_mode and threshold_signals into a single engineering failure mechanism:
+- leakage
+- offset break
+- link interruption
+- threshold breach
+- compensation stall
+
+No emotional framing. No narrative verbs.
+
+PATCH COMMANDS
+Produce 3–5 system-level commands using engineering verbs only:
+- activate
+- block
+- isolate
+- rebuild
+- lock
+- suppress
+- redefine
+
+Commands must target:
+- compensation structure
+- transition conditions
+- friction sources
+- leakage points
+
+No advisory tone.
+
+COLD CONCLUSION
+Summarize system states using static engineering expressions only:
+- offset accumulation fixed
+- compensation delay fixed
+- stable segment not forming
+- leakage state fixed
+- transition condition locked
+
+No natural-language summaries. No emotional tone.

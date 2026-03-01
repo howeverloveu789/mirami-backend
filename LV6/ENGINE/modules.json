@@ -1,0 +1,1060 @@
+{
+  "modules": [
+    {
+      "id": 0,
+      "core": "Tension",
+      "axisIndex": 0,
+      "forceAxisPrimary": "L3",
+      "forceAxisSecondary": "L1",
+      "semanticAxis": "L2",
+      "options": {
+        "A": {
+          "vector": {
+            "L2": 0.6,
+            "L3": 0.3,
+            "L1": 0.1
+          },
+          "tag": "TENSION_0_A_ESCALATES_OUTWARD_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_TENSION_A"
+        },
+        "B": {
+          "vector": {
+            "L2": 0.3,
+            "L3": 0.15,
+            "L1": 0.05
+          },
+          "tag": "TENSION_0_B_CONTAINED_OUTWARD_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_TENSION_B"
+        },
+        "C": {
+          "vector": {
+            "L2": -0.6,
+            "L3": -0.3,
+            "L1": -0.1
+          },
+          "tag": "TENSION_0_C_CONTAINED_INWARD_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_TENSION_C"
+        }
+      }
+    },
+    {
+      "id": 1,
+      "core": "Tension",
+      "axisIndex": 1,
+      "forceAxisPrimary": "L3",
+      "forceAxisSecondary": "L1",
+      "semanticAxis": "L3",
+      "options": {
+        "A": {
+          "vector": {
+            "L3": 0.3,
+            "L1": 0.1
+          },
+          "tag": "TENSION_1_A_WIDE_IMPACT_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_TENSION_A"
+        },
+        "B": {
+          "vector": {
+            "L3": 0.15,
+            "L1": 0.05
+          },
+          "tag": "TENSION_1_B_PARTIAL_IMPACT_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_TENSION_B"
+        },
+        "C": {
+          "vector": {
+            "L3": -0.3,
+            "L1": -0.1
+          },
+          "tag": "TENSION_1_C_ISOLATED_IMPACT_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_TENSION_C"
+        }
+      }
+    },
+    {
+      "id": 2,
+      "core": "Tension",
+      "axisIndex": 2,
+      "forceAxisPrimary": "L3",
+      "forceAxisSecondary": "L1",
+      "semanticAxis": "L2",
+      "options": {
+        "A": {
+          "vector": {
+            "L4": 0.6,
+            "L3": 0.3,
+            "L1": 0.1
+          },
+          "tag": "TENSION_2_A_IMMEDIATE_SHIFT_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_TENSION_A"
+        },
+        "B": {
+          "vector": {
+            "L4": 0.3,
+            "L3": 0.15,
+            "L1": 0.05
+          },
+          "tag": "TENSION_2_B_GRADUAL_SHIFT_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_TENSION_B"
+        },
+        "C": {
+          "vector": {
+            "L2": -0.6,
+            "L3": -0.3,
+            "L1": -0.1
+          },
+          "tag": "TENSION_2_C_NO_OUTWARD_SHIFT_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_TENSION_C"
+        }
+      }
+    },
+    {
+      "id": 3,
+      "core": "Tension",
+      "axisIndex": 3,
+      "forceAxisPrimary": "L3",
+      "forceAxisSecondary": "L1",
+      "semanticAxis": "L4",
+      "options": {
+        "A": {
+          "vector": {
+            "L4": 0.6,
+            "L3": 0.3,
+            "L1": 0.1
+          },
+          "tag": "TENSION_3_A_ACCELERATES_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_TENSION_A"
+        },
+        "B": {
+          "vector": {
+            "L4": 0.3,
+            "L3": 0.15,
+            "L1": 0.05
+          },
+          "tag": "TENSION_3_B_FLUCTUATES_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_TENSION_B"
+        },
+        "C": {
+          "vector": {
+            "L4": -0.6,
+            "L3": -0.3,
+            "L1": -0.1
+          },
+          "tag": "TENSION_3_C_SLOWS_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_TENSION_C"
+        }
+      }
+    },
+    {
+      "id": 4,
+      "core": "Shift",
+      "axisIndex": 0,
+      "forceAxisPrimary": "L4",
+      "forceAxisSecondary": "L2",
+      "semanticAxis": "L4",
+      "options": {
+        "A": {
+          "vector": {
+            "L4": 0.3,
+            "L2": 0.1
+          },
+          "tag": "SHIFT_0_A_IMMEDIATE_REDIRECT_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_SHIFT_A"
+        },
+        "B": {
+          "vector": {
+            "L4": 0.15,
+            "L2": 0.05
+          },
+          "tag": "SHIFT_0_B_CONDITIONAL_REDIRECT_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_SHIFT_B"
+        },
+        "C": {
+          "vector": {
+            "L4": -0.3,
+            "L2": -0.1
+          },
+          "tag": "SHIFT_0_C_NO_REDIRECT_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_SHIFT_C"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "core": "Shift",
+      "axisIndex": 1,
+      "forceAxisPrimary": "L4",
+      "forceAxisSecondary": "L2",
+      "semanticAxis": "L4",
+      "options": {
+        "A": {
+          "vector": {
+            "L4": 0.3,
+            "L2": 0.1
+          },
+          "tag": "SHIFT_1_A_DROP_ORIGINAL_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_SHIFT_A"
+        },
+        "B": {
+          "vector": {
+            "L4": 0.15,
+            "L2": 0.05
+          },
+          "tag": "SHIFT_1_B_REBALANCE_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_SHIFT_B"
+        },
+        "C": {
+          "vector": {
+            "L4": -0.3,
+            "L2": -0.1
+          },
+          "tag": "SHIFT_1_C_PRESERVE_ORIGINAL_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_SHIFT_C"
+        }
+      }
+    },
+    {
+      "id": 6,
+      "core": "Shift",
+      "axisIndex": 2,
+      "forceAxisPrimary": "L4",
+      "forceAxisSecondary": "L2",
+      "semanticAxis": "L2",
+      "options": {
+        "A": {
+          "vector": {
+            "L2": 0.1,
+            "L4": 0.3
+          },
+          "tag": "SHIFT_2_A_FRAGMENTED_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_SHIFT_A"
+        },
+        "B": {
+          "vector": {
+            "L4": 0.15,
+            "L2": 0.05
+          },
+          "tag": "SHIFT_2_B_UNSTABLE_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_SHIFT_B"
+        },
+        "C": {
+          "vector": {
+            "L2": -0.1,
+            "L4": -0.3
+          },
+          "tag": "SHIFT_2_C_NARROWED_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_SHIFT_C"
+        }
+      }
+    },
+    {
+      "id": 7,
+      "core": "Shift",
+      "axisIndex": 3,
+      "forceAxisPrimary": "L4",
+      "forceAxisSecondary": "L2",
+      "semanticAxis": "L4",
+      "options": {
+        "A": {
+          "vector": {
+            "L4": 0.3,
+            "L2": 0.1
+          },
+          "tag": "SHIFT_3_A_ACTIVELY_CONTROLLED_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_SHIFT_A"
+        },
+        "B": {
+          "vector": {
+            "L4": 0.15,
+            "L2": 0.05
+          },
+          "tag": "SHIFT_3_B_CONTEXT_ADJUSTED_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_SHIFT_B"
+        },
+        "C": {
+          "vector": {
+            "L4": -0.3,
+            "L2": -0.1
+          },
+          "tag": "SHIFT_3_C_MINIMIZED_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_SHIFT_C"
+        }
+      }
+    },
+    {
+      "id": 8,
+      "core": "Variation",
+      "axisIndex": 0,
+      "forceAxisPrimary": "L3",
+      "forceAxisSecondary": "L4",
+      "semanticAxis": "L3",
+      "options": {
+        "A": {
+          "vector": {
+            "L3": 0.3,
+            "L4": 0.1
+          },
+          "tag": "VARIATION_0_A_HIGH_FLUCTUATION_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_VARIATION_A"
+        },
+        "B": {
+          "vector": {
+            "L3": 0.15,
+            "L4": 0.05
+          },
+          "tag": "VARIATION_0_B_MODERATE_FLUCTUATION_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_VARIATION_B"
+        },
+        "C": {
+          "vector": {
+            "L3": -0.3,
+            "L4": -0.1
+          },
+          "tag": "VARIATION_0_C_SUPPRESSED_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_VARIATION_C"
+        }
+      }
+    },
+    {
+      "id": 9,
+      "core": "Variation",
+      "axisIndex": 1,
+      "forceAxisPrimary": "L3",
+      "forceAxisSecondary": "L4",
+      "semanticAxis": "L3",
+      "options": {
+        "A": {
+          "vector": {
+            "L3": 0.3,
+            "L4": 0.1
+          },
+          "tag": "VARIATION_1_A_LARGE_SWINGS_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_VARIATION_A"
+        },
+        "B": {
+          "vector": {
+            "L4": 0.05,
+            "L3": 0.15
+          },
+          "tag": "VARIATION_1_B_MANAGEABLE_SHIFTS_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_VARIATION_B"
+        },
+        "C": {
+          "vector": {
+            "L3": -0.3,
+            "L4": -0.1
+          },
+          "tag": "VARIATION_1_C_STABILIZED_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_VARIATION_C"
+        }
+      }
+    },
+    {
+      "id": 10,
+      "core": "Variation",
+      "axisIndex": 2,
+      "forceAxisPrimary": "L3",
+      "forceAxisSecondary": "L4",
+      "semanticAxis": "L3",
+      "options": {
+        "A": {
+          "vector": {
+            "L3": 0.3,
+            "L4": 0.1
+          },
+          "tag": "VARIATION_2_A_DESTABILIZED_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_VARIATION_A"
+        },
+        "B": {
+          "vector": {
+            "L3": 0.15,
+            "L4": 0.05
+          },
+          "tag": "VARIATION_2_B_GRADUAL_STRAIN_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_VARIATION_B"
+        },
+        "C": {
+          "vector": {
+            "L3": -0.3,
+            "L4": -0.1
+          },
+          "tag": "VARIATION_2_C_TIGHTENED_CONTROL_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_VARIATION_C"
+        }
+      }
+    },
+    {
+      "id": 11,
+      "core": "Variation",
+      "axisIndex": 3,
+      "forceAxisPrimary": "L3",
+      "forceAxisSecondary": "L4",
+      "semanticAxis": "L3",
+      "options": {
+        "A": {
+          "vector": {
+            "L4": 0.1,
+            "L3": 0.3
+          },
+          "tag": "VARIATION_3_A_RAPID_CORRECTION_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_VARIATION_A"
+        },
+        "B": {
+          "vector": {
+            "L3": 0.15,
+            "L4": 0.05
+          },
+          "tag": "VARIATION_3_B_GRADUAL_CORRECTION_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_VARIATION_B"
+        },
+        "C": {
+          "vector": {
+            "L3": -0.3,
+            "L4": -0.1
+          },
+          "tag": "VARIATION_3_C_CONSTRAINED_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_VARIATION_C"
+        }
+      }
+    },
+    {
+      "id": 12,
+      "core": "Recovery",
+      "axisIndex": 0,
+      "forceAxisPrimary": "L6",
+      "forceAxisSecondary": "L3",
+      "semanticAxis": "L4",
+      "options": {
+        "A": {
+          "vector": {
+            "L6": 0.3,
+            "L3": 0.1
+          },
+          "tag": "RECOVERY_0_A_FAST_RESTORE_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_RECOVERY_A"
+        },
+        "B": {
+          "vector": {
+            "L6": 0.15,
+            "L3": 0.05
+          },
+          "tag": "RECOVERY_0_B_MODERATE_RESTORE_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_RECOVERY_B"
+        },
+        "C": {
+          "vector": {
+            "L4": -0.6,
+            "L6": -0.3,
+            "L3": -0.1
+          },
+          "tag": "RECOVERY_0_C_SLOW_RESTORE_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_RECOVERY_C"
+        }
+      }
+    },
+    {
+      "id": 13,
+      "core": "Recovery",
+      "axisIndex": 1,
+      "forceAxisPrimary": "L6",
+      "forceAxisSecondary": "L3",
+      "semanticAxis": "L6",
+      "options": {
+        "A": {
+          "vector": {
+            "L6": 0.3,
+            "L3": 0.1
+          },
+          "tag": "RECOVERY_1_A_SHARP_REBOUND_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_RECOVERY_A"
+        },
+        "B": {
+          "vector": {
+            "L6": 0.15,
+            "L3": 0.05
+          },
+          "tag": "RECOVERY_1_B_GRADUAL_REBOUND_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_RECOVERY_B"
+        },
+        "C": {
+          "vector": {
+            "L6": -0.3,
+            "L3": -0.1
+          },
+          "tag": "RECOVERY_1_C_DELAYED_REBOUND_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_RECOVERY_C"
+        }
+      }
+    },
+    {
+      "id": 14,
+      "core": "Recovery",
+      "axisIndex": 2,
+      "forceAxisPrimary": "L6",
+      "forceAxisSecondary": "L3",
+      "semanticAxis": "L6",
+      "options": {
+        "A": {
+          "vector": {
+            "L6": 0.3,
+            "L3": 0.1
+          },
+          "tag": "RECOVERY_2_A_IMMEDIATE_RETURN_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_RECOVERY_A"
+        },
+        "B": {
+          "vector": {
+            "L6": 0.15,
+            "L3": 0.05
+          },
+          "tag": "RECOVERY_2_B_DELAYED_RETURN_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_RECOVERY_B"
+        },
+        "C": {
+          "vector": {
+            "L6": -0.3,
+            "L3": -0.1
+          },
+          "tag": "RECOVERY_2_C_ISOLATION_REQUIRED_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_RECOVERY_C"
+        }
+      }
+    },
+    {
+      "id": 15,
+      "core": "Recovery",
+      "axisIndex": 3,
+      "forceAxisPrimary": "L6",
+      "forceAxisSecondary": "L3",
+      "semanticAxis": "L6",
+      "options": {
+        "A": {
+          "vector": {
+            "L4": 0.6,
+            "L6": 0.3,
+            "L3": 0.1
+          },
+          "tag": "RECOVERY_3_A_ACCELERATED_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_RECOVERY_A"
+        },
+        "B": {
+          "vector": {
+            "L6": 0.15,
+            "L3": 0.05
+          },
+          "tag": "RECOVERY_3_B_NATURAL_PACE_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_RECOVERY_B"
+        },
+        "C": {
+          "vector": {
+            "L6": -0.3,
+            "L3": -0.1
+          },
+          "tag": "RECOVERY_3_C_WITHDRAWN_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_RECOVERY_C"
+        }
+      }
+    },
+    {
+      "id": 16,
+      "core": "Compensation",
+      "axisIndex": 0,
+      "forceAxisPrimary": "L5",
+      "forceAxisSecondary": "L2",
+      "semanticAxis": "L5",
+      "options": {
+        "A": {
+          "vector": {
+            "L5": 0.3,
+            "L2": 0.1
+          },
+          "tag": "COMPENSATION_0_A_OVER_ACTIVATION_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_COMPENSATION_A"
+        },
+        "B": {
+          "vector": {
+            "L5": 0.15,
+            "L2": 0.05
+          },
+          "tag": "COMPENSATION_0_B_BALANCED_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_COMPENSATION_B"
+        },
+        "C": {
+          "vector": {
+            "L5": -0.3,
+            "L2": -0.1
+          },
+          "tag": "COMPENSATION_0_C_LIMITED_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_COMPENSATION_C"
+        }
+      }
+    },
+    {
+      "id": 17,
+      "core": "Compensation",
+      "axisIndex": 1,
+      "forceAxisPrimary": "L5",
+      "forceAxisSecondary": "L2",
+      "semanticAxis": "L5",
+      "options": {
+        "A": {
+          "vector": {
+            "L5": 0.3,
+            "L2": 0.1
+          },
+          "tag": "COMPENSATION_1_A_HIGH_DRAIN_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_COMPENSATION_A"
+        },
+        "B": {
+          "vector": {
+            "L5": 0.15,
+            "L2": 0.05
+          },
+          "tag": "COMPENSATION_1_B_MODERATE_DRAIN_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_COMPENSATION_B"
+        },
+        "C": {
+          "vector": {
+            "L5": -0.3,
+            "L2": -0.1
+          },
+          "tag": "COMPENSATION_1_C_LOW_DRAIN_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_COMPENSATION_C"
+        }
+      }
+    },
+    {
+      "id": 18,
+      "core": "Compensation",
+      "axisIndex": 2,
+      "forceAxisPrimary": "L5",
+      "forceAxisSecondary": "L2",
+      "semanticAxis": "L5",
+      "options": {
+        "A": {
+          "vector": {
+            "L5": 0.3,
+            "L2": 0.1
+          },
+          "tag": "COMPENSATION_2_A_POST_INSTABILITY_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_COMPENSATION_A"
+        },
+        "B": {
+          "vector": {
+            "L5": 0.15,
+            "L2": 0.05
+          },
+          "tag": "COMPENSATION_2_B_STABLE_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_COMPENSATION_B"
+        },
+        "C": {
+          "vector": {
+            "L5": -0.3,
+            "L2": -0.1
+          },
+          "tag": "COMPENSATION_2_C_RESTRICTED_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_COMPENSATION_C"
+        }
+      }
+    },
+    {
+      "id": 19,
+      "core": "Compensation",
+      "axisIndex": 3,
+      "forceAxisPrimary": "L5",
+      "forceAxisSecondary": "L2",
+      "semanticAxis": "L5",
+      "options": {
+        "A": {
+          "vector": {
+            "L5": 0.3,
+            "L2": 0.1
+          },
+          "tag": "COMPENSATION_3_A_REGULATED_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_COMPENSATION_A"
+        },
+        "B": {
+          "vector": {
+            "L5": 0.15,
+            "L2": 0.05
+          },
+          "tag": "COMPENSATION_3_B_ADJUSTED_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_COMPENSATION_B"
+        },
+        "C": {
+          "vector": {
+            "L5": -0.3,
+            "L2": -0.1
+          },
+          "tag": "COMPENSATION_3_C_MINIMIZED_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_COMPENSATION_C"
+        }
+      }
+    },
+    {
+      "id": 20,
+      "core": "Break",
+      "axisIndex": 0,
+      "forceAxisPrimary": "L3",
+      "forceAxisSecondary": "L4",
+      "semanticAxis": "L2",
+      "options": {
+        "A": {
+          "vector": {
+            "L2": 0.6,
+            "L3": 0.3,
+            "L4": 0.1
+          },
+          "tag": "BREAK_0_A_EXTERNAL_BREAK_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_BREAK_A"
+        },
+        "B": {
+          "vector": {
+            "L3": 0.15,
+            "L4": 0.05
+          },
+          "tag": "BREAK_0_B_PARTIAL_BREAK_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_BREAK_B"
+        },
+        "C": {
+          "vector": {
+            "L2": -0.6,
+            "L3": -0.3,
+            "L4": -0.1
+          },
+          "tag": "BREAK_0_C_INTERNAL_BREAK_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_BREAK_C"
+        }
+      }
+    },
+    {
+      "id": 21,
+      "core": "Break",
+      "axisIndex": 1,
+      "forceAxisPrimary": "L3",
+      "forceAxisSecondary": "L4",
+      "semanticAxis": "L3",
+      "options": {
+        "A": {
+          "vector": {
+            "L3": 0.3,
+            "L4": 0.1
+          },
+          "tag": "BREAK_1_A_RAPID_SPREAD_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_BREAK_A"
+        },
+        "B": {
+          "vector": {
+            "L4": 0.05,
+            "L3": 0.15
+          },
+          "tag": "BREAK_1_B_SLOW_SPREAD_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_BREAK_B"
+        },
+        "C": {
+          "vector": {
+            "L3": -0.3,
+            "L4": -0.1
+          },
+          "tag": "BREAK_1_C_ISOLATED_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_BREAK_C"
+        }
+      }
+    },
+    {
+      "id": 22,
+      "core": "Break",
+      "axisIndex": 2,
+      "forceAxisPrimary": "L3",
+      "forceAxisSecondary": "L4",
+      "semanticAxis": "L3",
+      "options": {
+        "A": {
+          "vector": {
+            "L3": 0.3,
+            "L4": 0.1
+          },
+          "tag": "BREAK_2_A_COLLAPSE_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_BREAK_A"
+        },
+        "B": {
+          "vector": {
+            "L3": 0.15,
+            "L4": 0.05
+          },
+          "tag": "BREAK_2_B_DECLINE_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_BREAK_B"
+        },
+        "C": {
+          "vector": {
+            "L3": -0.3,
+            "L4": -0.1
+          },
+          "tag": "BREAK_2_C_FREEZE_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_BREAK_C"
+        }
+      }
+    },
+    {
+      "id": 23,
+      "core": "Break",
+      "axisIndex": 3,
+      "forceAxisPrimary": "L3",
+      "forceAxisSecondary": "L4",
+      "semanticAxis": "L2",
+      "options": {
+        "A": {
+          "vector": {
+            "L3": 0.3,
+            "L4": 0.1
+          },
+          "tag": "BREAK_3_A_ACTIVE_CONTROL_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_BREAK_A"
+        },
+        "B": {
+          "vector": {
+            "L3": 0.15,
+            "L4": 0.05
+          },
+          "tag": "BREAK_3_B_PARTIAL_CONTROL_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_BREAK_B"
+        },
+        "C": {
+          "vector": {
+            "L2": -0.6,
+            "L3": -0.3,
+            "L4": -0.1
+          },
+          "tag": "BREAK_3_C_INTERNAL_CONTROL_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_BREAK_C"
+        }
+      }
+    },
+    {
+      "id": 24,
+      "core": "TemporalFriction",
+      "axisIndex": 0,
+      "forceAxisPrimary": "L1",
+      "forceAxisSecondary": "L7",
+      "semanticAxis": "L4",
+      "options": {
+        "A": {
+          "vector": {
+            "L1": 0.3,
+            "L7": 0.1
+          },
+          "tag": "TEMPORALFRICTION_0_A_SPEED_UP_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_TEMPORALFRICTION_A"
+        },
+        "B": {
+          "vector": {
+            "L1": 0.15,
+            "L7": 0.05
+          },
+          "tag": "TEMPORALFRICTION_0_B_MODERATE_ADJUST_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_TEMPORALFRICTION_B"
+        },
+        "C": {
+          "vector": {
+            "L4": -0.6,
+            "L1": -0.3,
+            "L7": -0.1
+          },
+          "tag": "TEMPORALFRICTION_0_C_SLOW_DOWN_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_TEMPORALFRICTION_C"
+        }
+      }
+    },
+    {
+      "id": 25,
+      "core": "TemporalFriction",
+      "axisIndex": 1,
+      "forceAxisPrimary": "L1",
+      "forceAxisSecondary": "L7",
+      "semanticAxis": "L7",
+      "options": {
+        "A": {
+          "vector": {
+            "L7": 0.1,
+            "L1": 0.3
+          },
+          "tag": "TEMPORALFRICTION_1_A_DESYNC_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_TEMPORALFRICTION_A"
+        },
+        "B": {
+          "vector": {
+            "L7": 0.05,
+            "L1": 0.15
+          },
+          "tag": "TEMPORALFRICTION_1_B_PARTIAL_SYNC_LOSS_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_TEMPORALFRICTION_B"
+        },
+        "C": {
+          "vector": {
+            "L7": -0.1,
+            "L1": -0.3
+          },
+          "tag": "TEMPORALFRICTION_1_C_FORCED_SYNC_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_TEMPORALFRICTION_C"
+        }
+      }
+    },
+    {
+      "id": 26,
+      "core": "TemporalFriction",
+      "axisIndex": 2,
+      "forceAxisPrimary": "L1",
+      "forceAxisSecondary": "L7",
+      "semanticAxis": "L3",
+      "options": {
+        "A": {
+          "vector": {
+            "L3": 0.6,
+            "L1": 0.3,
+            "L7": 0.1
+          },
+          "tag": "TEMPORALFRICTION_2_A_DESTABILIZED_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_TEMPORALFRICTION_A"
+        },
+        "B": {
+          "vector": {
+            "L4": 0.3,
+            "L1": 0.15,
+            "L7": 0.05
+          },
+          "tag": "TEMPORALFRICTION_2_B_MINOR_SHIFT_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_TEMPORALFRICTION_B"
+        },
+        "C": {
+          "vector": {
+            "L3": -0.6,
+            "L1": -0.3,
+            "L7": -0.1
+          },
+          "tag": "TEMPORALFRICTION_2_C_STABILIZED_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_TEMPORALFRICTION_C"
+        }
+      }
+    },
+    {
+      "id": 27,
+      "core": "TemporalFriction",
+      "axisIndex": 3,
+      "forceAxisPrimary": "L1",
+      "forceAxisSecondary": "L7",
+      "semanticAxis": "L4",
+      "options": {
+        "A": {
+          "vector": {
+            "L4": 0.6,
+            "L1": 0.3,
+            "L7": 0.1
+          },
+          "tag": "TEMPORALFRICTION_3_A_RAPID_",
+          "shadow": "OUTER_SIGNAL",
+          "dark": "DARK_TEMPORALFRICTION_A"
+        },
+        "B": {
+          "vector": {
+            "L1": 0.15,
+            "L7": 0.05
+          },
+          "tag": "TEMPORALFRICTION_3_B_MODERATE_",
+          "shadow": "LOW_SIGNAL",
+          "dark": "DARK_TEMPORALFRICTION_B"
+        },
+        "C": {
+          "vector": {
+            "L4": -0.6,
+            "L1": -0.3,
+            "L7": -0.1
+          },
+          "tag": "TEMPORALFRICTION_3_C_SLOW_STEADY_",
+          "shadow": "INNER_WITHDRAW",
+          "dark": "DARK_TEMPORALFRICTION_C"
+        }
+      }
+    }
+  ]
+}

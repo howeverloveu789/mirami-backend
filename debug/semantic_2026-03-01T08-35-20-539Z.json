@@ -1,0 +1,16 @@
+{
+  "primary_core": "PIVOT_REFLEX",
+  "supporting_signals": {
+    "stability_pattern": "adaptive_window",
+    "compensation_style": "background",
+    "friction_behavior": "high"
+  },
+  "collapse_model": {
+    "trigger_condition": "state_shift_under_load",
+    "distortion_path": [
+      "PIVOT_REFLEX",
+      "Shift_Break"
+    ],
+    "failure_threshold": "low_threshold"
+  }
+}
